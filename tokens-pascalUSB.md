@@ -5,7 +5,7 @@
 
 2. Identificador de vairiables
 	
-		<nombre>  = [A-Z][a-z][0-9]_ 
+		<nombre>  = [a-zA-Z]+[a-zA-Z0-9_]+
 
 3. Tipos
 	int
