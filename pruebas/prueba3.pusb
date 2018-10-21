@@ -1,0 +1,18 @@
+//{Post: (forall x | x < 35 and x >20 and (exists y | y > 100))}
+
+case x of 
+	max(x) ==> print "Hola", "Como estas"
+	min(x) ==> println "Elena"
+
+for x in <a..b> do
+	begin
+		declare
+			a,y as int,bool
+			read(a)
+			y := a == 25
+
+			if y then
+				print "a es igual que 25"
+			else
+				print "A es distinto de 25"
+	end

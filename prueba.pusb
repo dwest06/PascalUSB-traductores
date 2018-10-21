@@ -1,9 +1,0 @@
-program
-	begin
-		declare
-			a, b, c as int;
-			d, e, f as inter
-			a := b + 3;
-			read e
-			// Esto es un comentario
-	end
