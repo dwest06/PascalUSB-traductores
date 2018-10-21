@@ -135,7 +135,7 @@ t_TkMinus = r'\-'
 t_TkMult = r'\*'
 t_TkDiv = r'\/'
 t_TkMod = r'\%'
-t_TkSoForth = r'\..'
+t_TkSoForth = r'\.\.'
 t_TkCap = r'<>'
 t_TkLess = r'<'
 t_TkLeq = r'<='
@@ -144,11 +144,12 @@ t_TkGreater = r'>'
 t_TkEqual = r'=='
 t_TkNEqual = r'/='
 
+#Reglas ignoradas
+t_ignore = ' \t'
+
 #Ignoramos cuando se encuentre un comentario
 t_ignore_TkComment = r'//(.)*'
 
-#Reglas ignoradas
-t_ignore = r' \t'
 
 
 #Funciones para las variables, numeros, string, etc
@@ -162,8 +163,8 @@ def t_TkNum(number):
 
 #Regla de expresion regular para las variables
 def t_TkId(identificador):
-    r'[a-zA-Z]+[a-zA-Z0-9_]+'
-    print("El identificador es", identificador)
+    r'[a-zA-Z]+[a-zA-Z0-9_]*'
+    #   print("El identificador es", identificador)
     identificador.type = reserved.get(identificador.value, 'TkId')
     return identificador
 
@@ -176,21 +177,26 @@ def t_newline(line):
 
 #Funcion por "default" cuando encuentra un token que no pertenece a la lista de tokens
 def t_error(invalido):
-    print("Caracter" + str(invalido.value) + "invalido. Linea " + 
-        str(invalido.lineno) + " y columna " + str(invalido.lexpos))
+
+    error = 'Error: Unexpected character "' + str(invalido.value[0]) + '" in row ' + str(invalido.lineno) + ', column ' + str(invalido.lexpos)
+    tokens_invalidos.append(error)
     invalido.lexer.skip(1)
 
 
 #Inicializamos el lexer
 lexer = lex.lex()
 
+#Lista donde se guardan los tokens validos
+tokens_validos = [] 
 
+#Lista donde se guardan los tokens invalidos
+tokens_invalidos = [] 
 
 def main():
     """Main"""
 
     #Verificamos si se paso el argumento correctamente
-    if len(sys.argv) < 2 :
+    if len(sys.argv) < 2:
         print("Uso del programa: python3 lexer.py <Nombre del archivo>.")
         return 0
 
@@ -207,13 +213,40 @@ def main():
 
     #Abrimos el contenido del la ruta 
     file = open(filepath, 'r')
-    data = file.read()
+    #Guardamos las lineas de cada
+    data = file.readline()
+    
+    while data:
+        #pasamos la linea como data al lexer
+        #Esto es con el fin de calcular bien la columna de los tokens
+        lexer.input(data)
 
-    lexer.input(data)
+        #Iteramos sobre el la entrada para extraer los tokens
+        #for tok in lexer:
+        #    print(tok.type, tok.value, tok.lineno)
+        tok = lexer.token()
+        while tok:
+            if (tok.type == 'TkNum' or tok.type == 'TkId'):
+                token_info = str(tok.type) + ' ("' + str(tok.value) + '") ' + str(tok.lineno) + ' ' + str(tok.lexpos)
+            else: 
+                token_info = str(tok.type) + ' ' + str(tok.lineno) + ' ' + str(tok.lexpos)
 
-    #Iteramos sobre el la entrada para extraer los tokens
-    for tok in lexer:
-        print(tok.type, tok.value, tok.lineno, tok.lexpos)
+            tokens_validos.append(token_info)
+            tok = lexer.token()
+
+        #leemos otra linea
+        data = file.readline()
+
+    #Verificamos si hay elementos en la lista de los tokens invalidos
+    #Imprimimos los tokens
+    if tokens_invalidos:
+        for i in tokens_invalidos:
+            print(i)
+    else:
+        for x in tokens_validos:
+            print(x)
+
+        
 
 
 if __name__ == '__main__':
