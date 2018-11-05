@@ -64,6 +64,10 @@ reserved = {
     'and' : 'TkAnd',
     'not' : 'TkNot',
     'in' : 'TkIn',
+
+    #Para los valores Booleanos
+    'true' : 'TkTrue',
+    'false' : 'TkFalse',
 }
 
 #Lista de tokens del lenguaje
@@ -73,10 +77,6 @@ tokens = [
 
     #Para los numero enteros
     'TkNum',
-
-    #Para los valores Booleanos
-    'TkTrue',
-    'TkFalse',
 
     #Para las cadenas de caracteres encerradas entre comillas
     'TkString',
@@ -121,8 +121,8 @@ t_TkComma = r'\,'
 t_TkPoint = r'\.'
 t_TkOpenPar = r'\('
 t_TkClosePar = r'\)'
-t_TkOpenBra = r'{'
-t_TkCloseBra = r'}'
+t_TkOpenBra = r'\{'
+t_TkCloseBra = r'\}'
 t_TkTwoPoints = r':'
 t_TkPipe = r'\|'
 t_TkAsig = r':='
@@ -152,13 +152,11 @@ t_ignore_TkComment = r'//(.)*'
 
 
 #Funciones para las variables, numeros, string, etc
-
 # Regla de expresion regular para los numeros
 def t_TkNum(number):
     r'\d+'
     number.value = int(number.value)
     return number
-
 
 #Regla de expresion regular para las variables
 def t_TkId(identificador):
@@ -210,7 +208,7 @@ def main():
     ext = filepath.split('.')
 
     #Verificamos si la extension es la correcta
-    if ext[1] != 'pusb':
+    if ext[-1] != 'pusb':
         print("Error al leer el archivo: Extension incorrecta.")
         return 0
 
