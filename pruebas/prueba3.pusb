@@ -1,4 +1,4 @@
-//{Post: (forall x | x < 35 and x >20 and (exists y | y > 100))}
+{Post: (forall x | x < 35 and x >20 and (exists y | y > 100))}
 
 case x of 
 	max(x) ==> print "Hola", "Como estas"
