@@ -5,7 +5,7 @@
 
     Traductores e Interpretadores (CI-3725)
     David Rodríguez (14-10930)
-    Javier Medina ()
+    Javier Medina (12-10400)
 
     Septiembre - Diciembre 2018
 
@@ -167,7 +167,6 @@ def t_TkId(identificador):
 def t_TkString(string):
     r'["][! #-z]*["]'
     return string
-    
 
 
 #Funcion para saber la linea del token
