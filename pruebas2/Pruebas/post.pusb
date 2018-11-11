@@ -1,0 +1,19 @@
+program
+begin
+
+ declare es_primo, i, N as bool, int, int
+
+ es_primo := true;
+ i := 2;
+ N := 13
+
+ if N==-1 or N==0 or N==1 then es_primo := false;
+
+ while es_primo and i < N do
+  begin
+   if N%i == 0 then
+     es_primo := false
+   i := i+1
+  end
+end
+{Post:((N==-1 or N==0 or N==1) and es_primo==false) or es_primo==(forall i|i in 2..N: N%i  0)}

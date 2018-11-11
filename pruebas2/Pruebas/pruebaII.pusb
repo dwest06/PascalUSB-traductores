@@ -1,0 +1,41 @@
+program
+begin
+
+declare b as bool
+
+	begin
+		declare
+		i, True, False as int, bool, bool
+
+		// Inicializacion 
+		i := 0;
+		True := true;
+		False := false;
+
+		while i<10 do
+			begin
+				b := i < 5;
+				print "Valor de la posicion i= ", i, " es ", b;
+				print "\n";
+				i:=i+1
+			end;
+		
+		i := 0;
+		// Sumatoria de los True y False
+		while i<10 do
+			begin
+				if b == True then
+					begin
+						println b;
+						b:=False
+					end
+				else
+					begin
+						println b;
+						b:=True
+					end;
+				i:=i+1
+			end
+	end
+
+end

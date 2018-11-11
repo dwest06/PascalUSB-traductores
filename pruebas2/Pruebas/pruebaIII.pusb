@@ -1,0 +1,32 @@
+program 
+begin
+
+  declare
+  rec as inter;
+  a,b as int, bool
+
+	begin
+          declare sum, True, False as int
+		sum := 0;
+		True := 0;
+		False := 0;
+
+		for i in 0..10 do
+			begin
+				a := i+1;
+				b := i<7
+			end;
+
+		for i in -1*0..10 do
+			begin
+				sum := sum + a;
+				if b then
+					begin
+						True:=True+1
+					end
+				else
+					False:=False+1
+			end
+	end
+
+end

@@ -1,0 +1,97 @@
+Gramatica
+
+
+program : instruccion
+
+instruccion: asignacion
+		   | bloque
+		   | entrada
+		   | salida
+		   | condicional
+		   | iteracion
+		   | instruccion instruccion
+
+
+bloque: BEGIN instruccion END;
+	  | BEGIN declaracionVar instruccion END;
+	  | BEGIN VACIO END;
+	  | BEGIN instruccion END
+	  | BEGIN declaracionVar instruccion END
+	  | BEGIN VACIO END
+
+asignacion: variable := expresion
+
+entrada: READ IDENTIFICADOR
+
+IDENTIFICADOR : TkId
+
+salida: PRINT listaVariables
+	  | PRINTLN listaVariables
+
+condicional: IF expBool THEN instruccion ELSE instruccion
+		   | IF expBool THEN instruccion
+		   | CASE expresion OF listaCase END
+listaCase: expresion ==> instruccion
+		 | expresion ==> instruccion listaCase 
+
+iteracion: FOR VARIABLE IN expresion* DO instruccion
+		 | WHILE condicion* DO instruccion
+
+declaracionVar: listaVariables , AS listaTipos ;
+			  | listaVariables , AS listaTipos
+
+listaVariables: IDENTIFICADOR
+			  | IDENTIFICADOR , listaVariables
+
+listaTipos: tipoDeDato
+		  | tipoDeDato, listaTipos
+
+tipoDeDato: INT
+		  | BOOL
+		  | INTER
+
+
+expresion: NUMERO
+		 | IDENTIFICADOR
+		 | expEnteros
+		 | expIntervalos
+		 | expBool
+		 | (expresion)
+
+
+expEnteros: RESTA expresion
+		  | expresion MOD expresion
+		  | expresion MULT expresion
+		  | expresion DIV expresion
+		  | expresion SUMA expresion
+		  | expresion RESTA expresion
+
+expIntervalos: expresion SOFORTH expresion
+			 | expresion SUMA expresion
+			 | expresion INTER expresion
+			 | expresion ESCALA expresion
+
+expBool: TRUE
+	   | FALSE 
+	   |NOT expresion
+	   | expresion AND expresion
+	   | expresion OR expresion 
+	   | expresion IN expresion
+	   | expresion IGUAL expresion
+	   | expresion DIFERENTE expresion
+	   | expresion MAYOR expresion
+	   | expresion MAYORQUE expresion
+	   | expresion MENOR expresion
+	   | expresion MENORQUE expresion
+
+convertir: ITOI ( IDENTIFICADOR )
+		 | LEN ( IDENTIFICADOR )
+		 | MAX ( IDENTIFICADOR )
+		 | MIN ( IDENTIFICADOR )
+
+postcondicion: LLAVE POST : expresionCuantificador LLAVE
+
+expresionCuantificador: ( FORALL x|x in IDENTIFICADOR: expresionCuantificador)
+					  | ( FORALL x|x in IDENTIFICADOR: expBool)
+					  | ( EXIST x|x in IDENTIFICADOR: expresionCuantificador)
+					  | ( EXIST x|x in IDENTIFICADOR: expBool)
