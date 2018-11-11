@@ -79,7 +79,7 @@ tokens = [
     'TkNum',
 
     #Para las cadenas de caracteres encerradas entre comillas
-    'TkString',
+    'TkString', #'TkComillas',
 
 
     #Separadores
@@ -117,6 +117,7 @@ tokens = [
 ] + list(reserved.values())
 
 #Reglas de expresiones regulares de cada token. Especificaciones de cada token
+#t_TkComilla = r '\"'
 t_TkComma = r'\,'
 t_TkPoint = r'\.'
 t_TkOpenPar = r'\('
@@ -132,6 +133,7 @@ t_TkArrow = r'==>'
 t_TkPlus = r'\+'
 t_TkMinus = r'\-'
 t_TkMult = r'\*'
+t_TkNEqual = r'/='
 t_TkDiv = r'\/'
 t_TkMod = r'\%'
 t_TkSoForth = r'\.\.'
@@ -141,7 +143,6 @@ t_TkLeq = r'<='
 t_TkGeq = r'>='
 t_TkGreater = r'>'
 t_TkEqual = r'=='
-t_TkNEqual = r'/='
 
 #Reglas ignoradas
 t_ignore = ' \t'
@@ -165,7 +166,7 @@ def t_TkId(identificador):
     return identificador
 #Regla de expresion regular para leer los strings
 def t_TkString(string):
-    r'["][! #-z]*["]'
+    r'"([^"\\\n]|\\"|\\\\|\\n)*"'
     return string
 
 
