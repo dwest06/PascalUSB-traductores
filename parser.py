@@ -32,6 +32,7 @@ def p_instruccion(p):
 				| ENTRADA
 				| SALIDA TkSemicolon
 				| SALIDA
+				| CONVERTIR
 				| CONDICIONAL_IF
 				| CONDICIONAL_CASE
 				| ITERACION_FOR
@@ -91,8 +92,8 @@ def p_salida(p):
 
 def p_condicional_if(p):
 	"""
-	CONDICIONAL_IF : TkIf EXPBOOL TkThen INSTRUCCION TkElse INSTRUCCION
-			  | TkIf EXPBOOL TkThen INSTRUCCION
+	CONDICIONAL_IF : TkIf EXP_BOOL TkThen INSTRUCCION TkElse INSTRUCCION
+			  | TkIf EXP_BOOL TkThen INSTRUCCION
 	"""
 	#if len (p) == 7:
 		#p[0] = condicional_if([p[2],p[4],p[6]])
@@ -129,7 +130,7 @@ def p_iteracion_for(p):
 
 def p_iteracion_while(p):
 	"""
-	ITERACION_WHILE : TkWhile EXPBOOL TkDo INSTRUCCION
+	ITERACION_WHILE : TkWhile EXP_BOOL TkDo INSTRUCCION
 	"""
 	#p[0] = iteracion_while([p[2],p[4]])
 	print "while"
@@ -174,3 +175,122 @@ def p_dato(p):
 	"""
 	#p[0] = dato([p[1]])
  
+ def p_expresion(p):
+ 	"""
+	EXPRESION : TkNum
+			  | IDENTIFICADOR
+			  | EXP_ENTEROS
+			  | EXP_INTERVALOS
+			  | EXP_BOOL
+			  | TkOpenPar EXPRESION TkClosePar
+	"""
+
+	#if len(p) == 4:
+		#p[0] = expresion([p[2]])
+	#else
+		#p[0] = expresion([p[1]])
+
+	print "expresion"
+
+def p_exp_enteros(p):
+	"""
+	EXP_ENTEROS = EXPRESION TkMod EXPRESION
+	 			| EXPRESION TkMult EXPRESION
+	 			| EXPRESION TkDiv EXPRESION
+	 			| EXPRESION TkPlus EXPRESION
+	 			| EXPRESION TkMinus EXPRESION %prec UMINUS
+	"""
+
+	#if len(p) == 6:
+    #    p[0] = exp_entero([-p[1]])
+    #else:
+        #if p[2] == '+':
+        #    p[0] = exp_entero([p[1], p[3]])
+        #elif p[2] == '-':
+        #    p[0] = exp_entero([p[1], p[3]])
+        #elif p[2] == '*':
+        #    p[0] = exp_entero([p[1], p[3]])
+        #elif p[2] == '/':
+        #    p[0] = exp_entero([p[1], p[3]])
+        #elif p[2] == '%':
+        #    p[0] = exp_entero([p[1], p[3]]) 
+    print "exp_entero"
+
+ def p_exp_intervalo(p):
+ 	"""
+	EXP_INTERVALO : EXPRESION TkSoForth EXPRESION
+				  | EXPRESION TkCap EXPRESION
+ 	"""
+ 	#p[0] = exp_intervalo([p[1],p[3]])
+ 	print "exp_intervalo"
+
+ def p_exp_bool(p):
+ 	"""
+ 	EXP_BOOL : TkTrue
+ 			 | TkFalse
+ 			 | TkNot EXP_BOOL
+ 			 | EXPRESION TkAnd EXPRESION
+ 			 | EXPRESION TkOr EXPRESION
+ 			 | EXPRESION TkIn EXPRESION
+ 			 | EXPRESION TkEqual EXPRESION
+ 			 | EXPRESION TkNEqual EXPRESION
+ 			 | EXPRESION TkGreater EXPRESION
+ 			 | EXPRESION TkGeq EXPRESION
+ 			 | EXPRESION TkLess EXPRESION
+ 			 | EXPRESION TkLeq EXPRESION
+	"""
+
+#	if len(p) == 2:
+#		p[0] = exp_bool([p[1]])
+#	elif len(p) == 3:
+#		p[0] = exp_bool([p[2]]) revisar#
+#	else:
+#		if p[2] == '<':
+ #       	p[0] = exp_bool([p[1], p[3]])
+ #   	elif p[2] == '>':
+ #       	p[0] = exp_bool([p[1], p[3]])
+ #   	elif p[2] == '<=':
+ #       	p[0] = exp_bool([p[1], p[3]])
+ #   	elif p[2] == '>=':
+ #       	p[0] = exp_bool([p[1], p[3]])
+ #   	elif p[2] == '=':
+ #       	p[0] = exp_bool([p[1], p[3]])
+ #   	elif p[2] == '/=':
+ #       	p[0] = exp_bool([p[1], p[3]])
+	print "exp bool"
+
+def p_convertir(p):
+	"""
+	CONVERTIR : TkItoi TkOpenPar IDENTIFICADOR TkClosePar
+			  | TkLen TkOpenPar IDENTIFICADOR TkClosePar
+			  | TkMax TkOpenPar IDENTIFICADOR TkClosePar
+			  | TkMin TkOpenPar IDENTIFICADOR TkClosePar
+	"""
+	#p[0] = convertir([p[3]])
+	print "convertir"
+
+def p_postcondicion(p):
+	"""
+	POST : TkOpenBra TkPost TkTwoPoints EXP_CUANTIFICADOR TKCloseBra
+	"""	
+	#p[0] = post([p[4]])
+
+	print "post"
+
+def p_exp_cuantificador_forall(p):
+	"""
+	EXP_CUANTIFICADOR : TkOpenPar TkForall IDENTIFICADOR TkPipe IDENTIFICADOR TkIn IDENTIFICADOR TkTwoPoints EXP_CUANTIFICADOR TkClosePar
+					  | TkOpenPar TkForall IDENTIFICADOR TkPipe IDENTIFICADOR TkIn IDENTIFICADOR TkTwoPoints EXP_BOOL TkClosePar
+	"""	
+	#p[0] = exp_cuantificador([p[3],p[5],p[7],p[9]])
+
+	print "forall"
+
+def p_exp_cuantificador_forall(p):
+	"""
+	EXP_CUANTIFICADOR : TkOpenPar TkExists IDENTIFICADOR TkPipe IDENTIFICADOR TkIn IDENTIFICADOR TkTwoPoints EXP_CUANTIFICADOR TkClosePar
+					  | TkOpenPar TkExists IDENTIFICADOR TkPipe IDENTIFICADOR TkIn IDENTIFICADOR TkTwoPoints EXP_BOOL TkClosePar
+	"""	
+	#p[0] = exp_cuantificador([p[3],p[5],p[7],p[9]])
+
+	print "exists"
