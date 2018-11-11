@@ -12,31 +12,41 @@
 
 from sys import argv
 from lexer import tokens
-import ply.yacc as yacc
+from ply import yacc as yacc
 #precedencia
 
 precedence = (
-  ('right','TkItoi'),
-  ('right','TkPrintln','TkPrint'),
-  ('right', 'TkRead' ),
-  ('right', 'TkBegin'),
-  ('left', 'TkAnd'),
-  ('left', 'TkOr'),
-  ('right', 'TkNot'),
-  ('nonassoc', 'TkEqual'),
-  ('nonassoc', 'TkGreater', 'TkLess', 'TkGeq', 'TkLeq'),
-  ('left', 'TkPlus', 'TkMinus'),
-  ('left', 'TkMult', 'TkDiv', 'TkMod'),
-  ('right', 'UMINUS'),
-  ('right', 'TkProgram')
+    ('right', 'TkItoi'),
+    ('right', 'TkPrintln', 'TkPrint'),
+    ('right', 'TkRead'),
+    ('right', 'TkBegin'),
+    ('left', 'TkAnd'),
+    ('left', 'TkOr'),
+    ('right', 'TkNot'),
+    ('nonassoc', 'TkEqual'),
+    ('nonassoc', 'TkGreater', 'TkLess', 'TkGeq', 'TkLeq'),
+    ('left', 'TkPlus', 'TkMinus'),
+    ('left', 'TkMult', 'TkDiv', 'TkMod'),
+    ('right', 'UMINUS'),
+    ('right', 'TkProgram')
 )
+
+#La gramatica empieza por p_qc
+start = 'qc'
+
+
+def p_qc(p):
+    """
+    INICIO : PROGRAMA
+    """
+    p[0] = p[1]
 
 def p_programa(p):
     """
     PROGRAMA : TkProgram SECUENCIACION
     """
     # p[0] = programa(p[1])
-    print ("programa " + str(p[2]))
+    # print ("programa " + str(p[2]))
 
 def p_bloque(p):
     """
@@ -50,6 +60,18 @@ def p_bloque(p):
     #else:
         #p[0] = bloque([p[]])
     print ("bloque")
+
+def p_secuenciacion(p):
+    '''
+    SECUENCIACION : INSTRUCCION 
+                  | INSTRUCCION TkSemicolon SECUENCIACION 
+    ''' 
+    #if (len(p) == 3 ): 
+    #    p[0] = secuenciacion([p[1],p[3]])
+    #else :
+    #    p[0] = secuenciacion([p[1]])
+    print ("secuencia",p[1])
+
 
 def p_instruccion(p):
     """
@@ -71,16 +93,6 @@ def p_instruccion(p):
         #p[0] = instruccion([p[1],p[2]])
     print ("instruccion")
 
-def p_secuenciacion(p):
-    '''
-    SECUENCIACION : INSTRUCCION 
-                  | INSTRUCCION TkSemicolon SECUENCIACION 
-    ''' 
-    #if (len(p) == 3 ): 
-    #    p[0] = secuenciacion([p[1],p[3]])
-    #else :
-    #    p[0] = secuenciacion([p[1]])
-    print ("secuencia",p[1])
 
 def p_identificador(p):
     '''
