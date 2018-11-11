@@ -33,17 +33,18 @@ precedence = (
 
 def p_programa(p):
     """
-    PROGRAMA : TkProgram SECUENCIACION
+    PROGRAMA : TkProgram INSTRUCCION
     """
     # p[0] = programa(p[1])
+    #p[0] = p[2]
     print ("programa " + str(p[2]))
 
 def p_bloque(p):
     """
     BLOQUE : TkBegin VACIO TkEnd  
-           | TkBegin SECUENCIACION TkEnd VACIO
-           | TkBegin TkDeclare DECL_VAR SECUENCIACION TkEnd  
-           | TkBegin TkDeclare DECL_VAR SECUENCIACION TkEnd VACIO 
+           | TkBegin INSTRUCCION TkEnd VACIO
+           | TkBegin TkDeclare DECL_VAR INSTRUCCION TkEnd  
+           | TkBegin TkDeclare DECL_VAR INSTRUCCION TkEnd VACIO 
     """
     #if len(p) >= 4:
         #p[0] = bloque([p[3],p[4]])
@@ -63,24 +64,14 @@ def p_instruccion(p):
                 | ITERACION_FOR
                 | ITERACION_WHILE
                 | BLOQUE
-                | VACIO
+                | INSTRUCCION TkSemicolon INSTRUCCION
     """
     #if  len(p) == 2:
         #p[0] = instruccion([p[1]])
     #else
         #p[0] = instruccion([p[1],p[2]])
-    print ("instruccion")
-
-def p_secuenciacion(p):
-    '''
-    SECUENCIACION : INSTRUCCION 
-                  | INSTRUCCION TkSemicolon SECUENCIACION 
-    ''' 
-    #if (len(p) == 3 ): 
-    #    p[0] = secuenciacion([p[1],p[3]])
-    #else :
-    #    p[0] = secuenciacion([p[1]])
-    print ("secuencia",p[1])
+    #p[0] = p[1]
+    print ("instruccion " )
 
 def p_identificador(p):
     '''
@@ -114,6 +105,7 @@ def p_salida(p):
            | TkPrintln CADENA
     """
     #p[0] = salida([p[2]])
+    #p[0] = p[2]
     print ("salida")
 
 def p_cadena(p):
@@ -121,12 +113,13 @@ def p_cadena(p):
     CADENA : TkString
     """
     #p[0] = cadena([p[1]])
+    #p[0] = p[1]
     print ("string")
 
 def p_condicional_if(p):
     """
-    CONDICIONAL_IF : TkIf EXP_BOOL TkThen SECUENCIACION TkElse SECUENCIACION
-              | TkIf EXP_BOOL TkThen SECUENCIACION
+    CONDICIONAL_IF : TkIf EXP_BOOL TkThen INSTRUCCION TkElse INSTRUCCION
+              | TkIf EXP_BOOL TkThen INSTRUCCION
     """
     #if len (p) == 7:
         #p[0] = condicional_if([p[2],p[4],p[6]])
@@ -145,8 +138,8 @@ def p_condicional_case(p):
 
 def p_lista_case(p):
     """
-    LISTA_CASE : EXPRESION TkArrow SECUENCIACION
-               | EXPRESION TkArrow SECUENCIACION LISTA_CASE
+    LISTA_CASE : EXPRESION TkArrow INSTRUCCION
+               | EXPRESION TkArrow INSTRUCCION LISTA_CASE
     """
     #if len(p) == 4:
         #p[0] = lista_case([p[1],p[3]])
@@ -156,14 +149,14 @@ def p_lista_case(p):
 
 def p_iteracion_for(p):
     """
-    ITERACION_FOR : TkFor IDENTIFICADOR TkIn EXPRESION TkDo SECUENCIACION
+    ITERACION_FOR : TkFor IDENTIFICADOR TkIn EXPRESION TkDo INSTRUCCION
     """
     #p[0] = iteracion_for([p[2],p[4],p[6]])
     print ("for")
 
 def p_iteracion_while(p):
     """
-    ITERACION_WHILE : TkWhile EXP_BOOL TkDo SECUENCIACION
+    ITERACION_WHILE : TkWhile EXP_BOOL TkDo INSTRUCCION
     """
     #p[0] = iteracion_while([p[2],p[4]])
     print ("while")
@@ -338,7 +331,7 @@ def p_error(p):
 
 
 
-parser = yacc.yacc('SLR')
+parser = yacc.yacc()
 #abrimos la ruta pasada por argumento
 filepath = argv[1]
 #Abrimos el contenido del la ruta
@@ -346,4 +339,6 @@ file = open(filepath, 'r')
 #Guardamos las lineas de cada
 data = file.read()
 print (data)
-parser.parse(data)
+result = parser.parse(data)
+#print ("RESULT: ")
+#print (result)
