@@ -36,14 +36,13 @@ def p_programa(p):
     PROGRAMA : TkProgram SECUENCIACION
     """
     # p[0] = programa(p[1])
-    print ("programa")
+    print ("programa " + str(p[2]))
 
 def p_bloque(p):
     """
-    BLOQUE : TkBegin SECUENCIACION TkEnd TkSemicolon
-           | TkBegin VACIO TkEnd TkSemicolon
+    BLOQUE : TkBegin VACIO TkEnd  
            | TkBegin SECUENCIACION TkEnd VACIO
-           | TkBegin TkDeclare DECL_VAR SECUENCIACION TkEnd TkSemicolon
+           | TkBegin TkDeclare DECL_VAR SECUENCIACION TkEnd  
            | TkBegin TkDeclare DECL_VAR SECUENCIACION TkEnd VACIO 
     """
     #if len(p) >= 4:
@@ -54,19 +53,16 @@ def p_bloque(p):
 
 def p_instruccion(p):
     """
-    INSTRUCCION : BLOQUE
-                | ASIGNACION TkSemicolon
-                | ASIGNACION VACIO
-                | ENTRADA TkSemicolon
-                | ENTRADA VACIO
-                | SALIDA TkSemicolon
-                | SALIDA VACIO
+    INSTRUCCION : POST
+                | ASIGNACION 
+                | ENTRADA 
+                | SALIDA 
                 | CONVERTIR
                 | CONDICIONAL_IF
                 | CONDICIONAL_CASE
                 | ITERACION_FOR
                 | ITERACION_WHILE
-                | POST
+                | BLOQUE
                 | VACIO
     """
     #if  len(p) == 2:
@@ -78,13 +74,13 @@ def p_instruccion(p):
 def p_secuenciacion(p):
     '''
     SECUENCIACION : INSTRUCCION 
-                  | INSTRUCCION  SECUENCIACION 
+                  | INSTRUCCION TkSemicolon SECUENCIACION 
     ''' 
     #if (len(p) == 3 ): 
     #    p[0] = secuenciacion([p[1],p[3]])
     #else :
     #    p[0] = secuenciacion([p[1]])
-    print ("secuencia")
+    print ("secuencia",p[1])
 
 def p_identificador(p):
     '''
@@ -141,7 +137,7 @@ def p_condicional_if(p):
 def p_condicional_case(p):
     """
     CONDICIONAL_CASE : TkCase EXPRESION TkOf LISTA_CASE TkEnd
-                     | TkCase EXPRESION TkOf LISTA_CASE TkEnd TkSemicolon                    
+                   
     """
 
     #p[0] = condicional_case([p[2],p[4]])
@@ -174,8 +170,7 @@ def p_iteracion_while(p):
 
 def p_declaracion_var(p):
     """
-    DECL_VAR : LISTA_VAR TkAs LISTA_TIPO TkSemicolon DECL_VAR
-             | LISTA_VAR TkAs LISTA_TIPO
+    DECL_VAR : LISTA_VAR TkAs LISTA_TIPO 
     """
     #p[0] = lista_var([p[1],p[3]])
     print ("declaracion")
