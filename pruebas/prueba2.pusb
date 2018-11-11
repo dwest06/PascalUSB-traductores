@@ -1,5 +1,5 @@
 program
 	begin
-	println "Hello World";
-	print "H"
-	
+		println "Hello World";
+		print "H"
+	end
