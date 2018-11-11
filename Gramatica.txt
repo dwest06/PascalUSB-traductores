@@ -31,14 +31,16 @@ salida: PRINT listaVariables
 condicional: IF expBool THEN instruccion ELSE instruccion
 		   | IF expBool THEN instruccion
 		   | CASE expresion OF listaCase END
+		   | CASE expresion OF listaCase END ;
+
 listaCase: expresion ==> instruccion
 		 | expresion ==> instruccion listaCase 
 
-iteracion: FOR VARIABLE IN expresion* DO instruccion
-		 | WHILE condicion* DO instruccion
+iteracion: FOR IDENTIFICADOR IN expresion* DO instruccion
+		 | WHILE EXPBOLL DO instruccion
 
-declaracionVar: listaVariables , AS listaTipos ;
-			  | listaVariables , AS listaTipos
+declaracionVar: listaVariables  AS listaTipos ;
+			  | listaVariables  AS listaTipos
 
 listaVariables: IDENTIFICADOR
 			  | IDENTIFICADOR , listaVariables
@@ -49,7 +51,7 @@ listaTipos: tipoDeDato
 tipoDeDato: INT
 		  | BOOL
 		  | INTER
-
+ 
 
 expresion: NUMERO
 		 | IDENTIFICADOR
