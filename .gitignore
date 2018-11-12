@@ -1,1 +1,3 @@
-PascalUsb.sublime.*
+PascalUsb.sublime-project
+PascalUsb.sublime-workspace
+__pycache__/
