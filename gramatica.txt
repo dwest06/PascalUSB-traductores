@@ -29,7 +29,7 @@ INSTRUCCION -> IO
 	| CONDICIONAL
 	| ITERACION
 	| BLOQUE
-	#Falta ver por la postcondicion, si de verdad es lo ultimo que se ejecuta en un codigo
+	| POSTCOND
 
 IO -> read ID
 	| read EXPRESION soFarth EXPRESION

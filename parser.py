@@ -17,13 +17,19 @@ from ply import yacc as yacc
 
 class Node():
     """docstring for Node"""
-    def __init__(self, tipo, hijos=None, hoja=None):
+    def __init__(self, tipo, hijos=None, hoja=None, tabs=0):
         self.type = tipo
         if hijos:
             self.hijos = hijos
         else:
             self.hijos = []
         self.hoja = hoja
+        self.tabs = tabs
+
+    def imprimir(self):
+        for i in range(self.tabs):
+            print("\t", end='')
+
 
 
 precedence = (
@@ -54,7 +60,7 @@ def p_qc(p):
 
 def p_programa(p):
     """
-    PROGRAMA : TkProgram INSTRUCCION
+    PROGRAMA : TkProgram BLOQUE
     """
     p[0] = p[2]
     
@@ -62,7 +68,7 @@ def p_bloque(p):
     """
     BLOQUE : TkBegin TkEnd
            | TkBegin SECUENCIACION TkEnd
-           | TkBegin TkDeclare DECL_VAR INSTRUCCION TkEnd
+           | TkBegin TkDeclare DECL_VAR SECUENCIACION TkEnd
     """
     if len(p) == 3:
         p[0] = p[2]
@@ -75,26 +81,38 @@ def p_secuenciacion(p):
     SECUENCIACION : INSTRUCCION 
                   | INSTRUCCION TkSemicolon SECUENCIACION 
     ''' 
+    """
     if (len(p) == 3 ): 
        p[0] = secuenciacion([p[1],p[3]])
     else :
        p[0] = secuenciacion([p[1]])
     print ("secuencia",p[1])
+    """
+
+def p_declaracion_var(p):
+    """
+    DECL_VAR : VARIABLES TkAs TIPOS TkSemiColon DECL_VAR
+             | VARIABLES TkAs TIPOS
+    """
+    #p[0] = lista_var([p[1],p[3]])
+    print ("declaracion")
+
+def p_variables(p):
+    """
+    VARIABLES : ID , VARIABLES
+              | ID
+
+    """
 
 
 def p_instruccion(p):
     """
-    INSTRUCCION : POST
-                | ASIGNACION 
-                | ENTRADA 
-                | SALIDA 
-                | CONVERTIR
-                | CONDICIONAL_IF
-                | CONDICIONAL_CASE
-                | ITERACION_FOR
-                | ITERACION_WHILE
+    INSTRUCCION : IO
+                | VARIABLES TkAsig EXPRESION 
+                | CONDICIONAL
+                | ITERACION
                 | BLOQUE
-                | INSTRUCCION TkSemicolon INSTRUCCION
+                | POSTCOND
     """
     #if  len(p) == 2:
         #p[0] = instruccion([p[1]])
@@ -106,18 +124,11 @@ def p_instruccion(p):
 
 def p_identificador(p):
     '''
-    IDENTIFICADOR : TkId
+    ID : TkId
     '''
     #p[0] = p[1]
     print ("identificador")
     print (p[1])
-
-def p_asignacion(p):
-    """
-    ASIGNACION : EXPRESION TkAsig EXPRESION
-    """
-    #p[0] = asignacion([p[1],p[3]])
-    print ("Asignacion")
 
 
 def p_entrada(p):
@@ -191,13 +202,6 @@ def p_iteracion_while(p):
     """
     #p[0] = iteracion_while([p[2],p[4]])
     print ("while")
-
-def p_declaracion_var(p):
-    """
-    DECL_VAR : LISTA_VAR TkAs LISTA_TIPO 
-    """
-    #p[0] = lista_var([p[1],p[3]])
-    print ("declaracion")
 
 def p_lista_var(p):
     """
