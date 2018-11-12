@@ -32,6 +32,8 @@ class Node():
 
 
 
+
+
 precedence = (
     ('right', 'TkItoi'),
     ('right', 'TkPrintln', 'TkPrint'),
@@ -56,13 +58,14 @@ def p_qc(p):
     """
     INICIO : PROGRAMA
     """
-    p[0] = p[1]
+    p[0] = ("INICIO", p[1])
 
 def p_programa(p):
     """
     PROGRAMA : TkProgram BLOQUE
     """
-    p[0] = p[2]
+    p[0] = ("PROGRAM", p[2])
+    print ("program")
     
 def p_bloque(p):
     """
@@ -70,24 +73,27 @@ def p_bloque(p):
            | TkBegin SECUENCIACION TkEnd
            | TkBegin TkDeclare DECL_VAR SECUENCIACION TkEnd
     """
-    if len(p) == 3:
-        p[0] = p[2]
-    else:
-        p[0] = (p[2], p[3])
-    #print ("bloque")
+    if len(p) == 4:
+        p[0] = ("BLOQUE", p[2], p[3])
+    elif len(p) == 3:
+        p[0] = ("BLOQUE", p[2])
+    else: 
+        p[0] = ("BLOQUE")
+    print("bloque")
 
 def p_secuenciacion(p):
     '''
     SECUENCIACION : INSTRUCCION 
                   | INSTRUCCION TkSemicolon SECUENCIACION 
     ''' 
-    """
-    if (len(p) == 3 ): 
-       p[0] = secuenciacion([p[1],p[3]])
-    else :
-       p[0] = secuenciacion([p[1]])
-    print ("secuencia",p[1])
-    """
+    
+    if len(p) == 3: 
+       p[0] = ("SECUENCIACION", [p[1],p[3]])
+    else:
+       p[0] = ("SECUENCIACION", [p[1]])
+    
+    print("secuenciacion")
+    
 
 def p_declaracion_var(p):
     """
@@ -95,14 +101,44 @@ def p_declaracion_var(p):
              | VARIABLES TkAs TIPOS
     """
     #p[0] = lista_var([p[1],p[3]])
-    print ("declaracion")
+    if len(p) == 6:
+        p[0] = ("DECLARACION", p[1], p[3], p[5])
+    else:
+        p[0] = ("DECLARACION", p[1], p[3])
+
+    print("declaracion")
+
+def p_tipos(p):
+    """
+    TIPOS : TIPO TkComma TIPOS
+          | TIPO
+    """
+    if len(p) == 4:
+        p[0] = ("TIPOS", p[1], p[3])
+    else:
+        p[0] = ("TIPOS", p[1])
+
+    print("tipos")
+
+def p_tipo(p):
+    """
+    TIPO : TkInt
+         | TkBool
+         | TkInter
+    """
+    p[0] = ("TIPO", p[1])
+    print("tipo", p[1])
 
 def p_variables(p):
     """
-    VARIABLES : ID , VARIABLES
+    VARIABLES : ID TkComma VARIABLES
               | ID
-
     """
+    if len(p) == 4:
+        p[0] = ("VARIABLES", p[1], p[3])
+    else:
+        p[0] = ("VARIABLES", p[1])
+    print("variables")
 
 
 def p_instruccion(p):
@@ -114,140 +150,90 @@ def p_instruccion(p):
                 | BLOQUE
                 | POSTCOND
     """
-    #if  len(p) == 2:
-        #p[0] = instruccion([p[1]])
-    #else
-        #p[0] = instruccion([p[1],p[2]])
+    if  len(p) == 2:
+        p[0] = ("INSTRUCCION", p[1])
+    else:
+        p[0] = ("INSTRUCCION", p[1], p[3])
 
-    #p[0] = p[1]
-    print ("instruccion " )
+    print("instruccion ")
 
 def p_identificador(p):
     '''
     ID : TkId
     '''
-    #p[0] = p[1]
-    print ("identificador")
-    print (p[1])
+    p[0] = ("ID", p[1])
+    print("identificador")
+    print(p[1])
 
 
-def p_entrada(p):
+def p_io(p):
     """
-    ENTRADA : TkRead IDENTIFICADOR
+    IO : read ID
+       | read EXPRESION soFarth EXPRESION
+       | print VARIABLES
+       | println VARIABLES
     """
-    #p[0] = entrada([p[2]])
+    if len(p) == 5:
+        p[0] = ("IO", p[2], p[4])
+    else:
+        p[0] = ("IO", p[2])
 
-    print ("entrada")
-
-def p_salida(p):
-    """
-    SALIDA : TkPrint LISTA_VAR
-           | TkPrintln LISTA_VAR
-           | TkPrint CADENA
-           | TkPrintln CADENA
-    """
-    #p[0] = salida([p[2]])
-    #p[0] = p[2]
-    print ("salida")
+    print("IO")
 
 def p_cadena(p):
     """
     CADENA : TkString
     """
-    #p[0] = cadena([p[1]])
-    #p[0] = p[1]
-    print ("string")
 
-def p_condicional_if(p):
-    """
-    CONDICIONAL_IF : TkIf EXP_BOOL TkThen INSTRUCCION TkElse INSTRUCCION
-              | TkIf EXP_BOOL TkThen INSTRUCCION
-    """
-    #if len (p) == 7:
-        #p[0] = condicional_if([p[2],p[4],p[6]])
-    #else:
-        #p[0] = condicional_if([p[2],p[4]])
-    print ("if")
+    p[0] = ("STRING", p[1])
 
-def p_condicional_case(p):
-    """
-    CONDICIONAL_CASE : TkCase EXPRESION TkOf LISTA_CASE TkEnd
-                   
-    """
+    print ("string", p[1])
 
-    #p[0] = condicional_case([p[2],p[4]])
-    print ("case")
+def p_condicional(p):
+    """
+    CONDICIONAL : TkIf EXP_BOOL TkThen SECUENCIACION TkElse SECUENCIACION
+                | TkIf EXP_BOOL TkThen SECUENCIACION
+                | TkCase EXPRESION TkOf LISTA_CASE TkEnd
+    """
+    if len(p) == 7:
+        p[0] = ("CONDICIONAL", p[2], p[4], p[6])
+    else:
+        p[0] = ("CONDICIONAL", p[2], p[4])
+
+    print("codicional")
+
 
 def p_lista_case(p):
     """
-    LISTA_CASE : EXPRESION TkArrow INSTRUCCION
-               | EXPRESION TkArrow INSTRUCCION LISTA_CASE
+    LISTA_CASE : EXPRESION TkArrow SECUENCIACION
+               | EXPRESION TkArrow SECUENCIACION LISTA_CASE
     """
-    #if len(p) == 4:
-        #p[0] = lista_case([p[1],p[3]])
-    #else
-        #p[0] = lista_case([p[1],p[3],p[4]])
+    if len(p) == 4:
+        p[0] = ("LISTA_CASE", p[1], p[3])
+    else:
+        p[0] = ("LISTA_CASE", p[1], p[3], p[4])
     print ("lista case")
 
 def p_iteracion_for(p):
     """
-    ITERACION_FOR : TkFor IDENTIFICADOR TkIn EXPRESION TkDo INSTRUCCION
+    ITERACION_FOR : TkFor IDENTIFICADOR TkIn EXPRESION TkDo SECUENCIACION
+                  | TkWhile EXPRESION TkDo SECUENCIACION 
+                  | 
     """
-    #p[0] = iteracion_for([p[2],p[4],p[6]])
-    print ("for")
-
-def p_iteracion_while(p):
-    """
-    ITERACION_WHILE : TkWhile EXP_BOOL TkDo INSTRUCCION
-    """
-    #p[0] = iteracion_while([p[2],p[4]])
-    print ("while")
-
-def p_lista_var(p):
-    """
-    LISTA_VAR : IDENTIFICADOR
-              | IDENTIFICADOR TkComma LISTA_VAR
-    """
-    #if len(p) == 2:
-        #p[0] = lista_var([p[1]])
-    #else
-        #p[0] = lista_var([p[1],p[3]])
-
-    print ("lista var")
-
-def p_lista_tipo(p):
-    """
-    LISTA_TIPO : DATO
-              | DATO TkComma LISTA_TIPO
-    """
-    #if len(p) == 2:
-        #p[0] = lista_dato([p[1]])
-    #else
-        #p[0] = lista_dato([p[1],p[3]])
-    print ("lista dato")
-
-def p_dato(p):
-    """
-    DATO : TkInt
-         | TkBool
-         | TkInter
-    """
-    #p[0] = dato([p[1]])
-    print ("dato")
+    p[0] = ("ITERACION", p[2], p[4], p[6])
 
 def p_expresion(p):
     """
-    EXPRESION : TkNum
-              | IDENTIFICADOR
+    EXPRESION : ID
               | EXP_ENTEROS
               | EXP_INTERVALOS
               | EXP_BOOL
               | TkOpenPar EXPRESION TkClosePar
     """
-    #if len(p) == 4:
-        #p[0] = expresion([p[2]])
-    #else
-        #p[0] = expresion([p[1]])
+    if len(p) == 4:
+        p[0] = ("EXPRESION", p[2])
+    else:
+        p[0] = ("EXPRESION", p[1])
     print ("expresion")
 
 def p_exp_enteros(p):
@@ -257,30 +243,40 @@ def p_exp_enteros(p):
                 | EXPRESION TkDiv EXPRESION
                 | EXPRESION TkPlus EXPRESION
                 | EXPRESION TkMinus EXPRESION %prec UMINUS
+                | TkNum
     """
 
-    #if len(p) == 6:
-    #    p[0] = exp_entero([-p[1]])
-    #else:
-        #if p[2] == '+':
-        #    p[0] = exp_entero([p[1], p[3]])
-        #elif p[2] == '-':
-        #    p[0] = exp_entero([p[1], p[3]])
-        #elif p[2] == '*':
-        #    p[0] = exp_entero([p[1], p[3]])
-        #elif p[2] == '/':
-        #    p[0] = exp_entero([p[1], p[3]])
-        #elif p[2] == '%':
-        #    p[0] = exp_entero([p[1], p[3]]) 
-    print ("exp_entero")
+    if len(p) == 6:
+        p[0] = ("EXP_ENTERO", -p[1])
+    else:
+        if p[2] == '+':
+            p[0] = ("EXP_ENTERO", p[1], p[3])
+        elif p[2] == '-':
+            p[0] = ("EXP_ENTERO", p[1], p[3])
+        elif p[2] == '*':
+            p[0] = ("EXP_ENTERO", p[1], p[3])
+        elif p[2] == '/':
+            p[0] = ("EXP_ENTERO", p[1], p[3])
+        elif p[2] == '%':
+            p[0] = ("EXP_ENTERO", p[1], p[3])
+
+    print("exp_entero")
 
 def p_exp_intervalo(p):
     """
-    EXP_INTERVALOS : EXPRESION TkSoForth EXPRESION
-                  | EXPRESION TkCap EXPRESION
+    EXP_INTERVALO : EXPRESION soFarth EXPRESION
+                  | EXPRESION suma EXPRESION
+                  | EXPRESION inter EXPRESION
+                  | EXPRESION escala EXPRESION
     """
-    #p[0] = exp_intervalo([p[1],p[3]])
-    print ("exp_intervalo")
+
+    #########################
+    #
+    # AQUI NO SE QUE HACER SEGUN LOS OPERADORES
+    #
+    #########################
+    p[0] = ("EXP_INTERVALO", p[1], p[3])
+    print("exp_intervalo")
 
 def p_exp_bool(p):
     """
@@ -298,24 +294,28 @@ def p_exp_bool(p):
              | EXPRESION TkLeq EXPRESION
     """
 
-#   if len(p) == 2:
-#       p[0] = exp_bool([p[1]])
-#   elif len(p) == 3:
-#       p[0] = exp_bool([p[2]]) revisar#
-#   else:
-#       if p[2] == '<':
- #          p[0] = exp_bool([p[1], p[3]])
- #      elif p[2] == '>':
- #          p[0] = exp_bool([p[1], p[3]])
- #      elif p[2] == '<=':
- #          p[0] = exp_bool([p[1], p[3]])
- #      elif p[2] == '>=':
- #          p[0] = exp_bool([p[1], p[3]])
- #      elif p[2] == '=':
- #          p[0] = exp_bool([p[1], p[3]])
- #      elif p[2] == '/=':
- #          p[0] = exp_bool([p[1], p[3]])
-    print ("exp bool")
+    if len(p) == 2:
+        p[0] = ("EXP_BOOL", p[1])
+    elif len(p) == 3:
+        p[0] = ("EXP_BOOL", p[2])
+    else:
+        if p[2] == '<':
+            p[0] = ("EXP_BOOL", p[1], p[3])
+        elif p[2] == '>':
+            p[0] = ("EXP_BOOL", p[1], p[3])
+        elif p[2] == '<=':
+            p[0] = ("EXP_BOOL", p[1], p[3])
+        elif p[2] == '>=':
+            p[0] = ("EXP_BOOL", p[1], p[3])
+        elif p[2] == '=':
+            p[0] = ("EXP_BOOL", p[1], p[3])
+        elif p[2] == '/=':
+            p[0] = ("EXP_BOOL", p[1], p[3])
+
+    print("exp bool")
+
+
+################################################
 
 def p_convertir(p):
     """
@@ -325,15 +325,15 @@ def p_convertir(p):
               | TkMin TkOpenPar IDENTIFICADOR TkClosePar
     """
     #p[0] = convertir([p[3]])
-    print ("convertir")
+    print("convertir")
 
 def p_postcondicion(p):
     """
     POST : TkOpenBra TkPost TkTwoPoints EXP_CUANTIFICADOR TkCloseBra
-    """ 
+    """
     #p[0] = post([p[4]])
 
-    print ("post")
+    print("post")
 
 def p_exp_cuantificador_forall(p):
     """
