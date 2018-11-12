@@ -15,6 +15,17 @@ from lexer import tokens
 from ply import yacc as yacc
 #precedencia
 
+class Node():
+    """docstring for Node"""
+    def __init__(self, tipo, hijos=None, hoja=None):
+        self.type = tipo
+        if hijos:
+            self.hijos = hijos
+        else:
+            self.hijos = []
+        self.hoja = hoja
+
+
 precedence = (
     ('right', 'TkItoi'),
     ('right', 'TkPrintln', 'TkPrint'),
@@ -45,32 +56,29 @@ def p_programa(p):
     """
     PROGRAMA : TkProgram INSTRUCCION
     """
-    # p[0] = programa(p[1])
-    #p[0] = p[2]
-    print ("programa " + str(p[2]))
-
+    p[0] = p[2]
+    
 def p_bloque(p):
     """
-    BLOQUE : TkBegin VACIO TkEnd  
-           | TkBegin INSTRUCCION TkEnd VACIO
-           | TkBegin TkDeclare DECL_VAR INSTRUCCION TkEnd  
-           | TkBegin TkDeclare DECL_VAR INSTRUCCION TkEnd VACIO 
+    BLOQUE : TkBegin TkEnd
+           | TkBegin SECUENCIACION TkEnd
+           | TkBegin TkDeclare DECL_VAR INSTRUCCION TkEnd
     """
-    #if len(p) >= 4:
-        #p[0] = bloque([p[3],p[4]])
-    #else:
-        #p[0] = bloque([p[]])
-    print ("bloque")
+    if len(p) == 3:
+        p[0] = p[2]
+    else:
+        p[0] = (p[2], p[3])
+    #print ("bloque")
 
 def p_secuenciacion(p):
     '''
     SECUENCIACION : INSTRUCCION 
                   | INSTRUCCION TkSemicolon SECUENCIACION 
     ''' 
-    #if (len(p) == 3 ): 
-    #    p[0] = secuenciacion([p[1],p[3]])
-    #else :
-    #    p[0] = secuenciacion([p[1]])
+    if (len(p) == 3 ): 
+       p[0] = secuenciacion([p[1],p[3]])
+    else :
+       p[0] = secuenciacion([p[1]])
     print ("secuencia",p[1])
 
 
@@ -345,8 +353,7 @@ def p_vacio(p):
     '''
     VACIO : 
     '''
-    #p[0] = None
-    print ("Vacio")
+    pass
 
 def p_error(p):
     print("Se ha encontrado un error",p)
@@ -356,12 +363,12 @@ def p_error(p):
 
 parser = yacc.yacc()
 #abrimos la ruta pasada por argumento
-filepath = argv[1]
+#filepath = argv[1]
 #Abrimos el contenido del la ruta
-file = open(filepath, 'r')
+#file = open(filepath, 'r')
 #Guardamos las lineas de cada
-data = file.read()
-print (data)
-result = parser.parse(data)
+#data = file.read()
+#print (data)
+result = parser.parse(tokens)
 #print ("RESULT: ")
 #print (result)
