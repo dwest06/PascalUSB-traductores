@@ -1,0 +1,43 @@
+INICIO -> program BLOQUE 
+	| program
+
+BLOQUE -> begin declare DECLARACION SECUENCIACION end
+	| begin INSTRUCCION end
+
+DECLARACION -> VARIABLES as TIPOS ; DECLA1
+	| VARIABLES as TIPOS ;
+
+VARIABLES -> ID , VARIABLES
+	| ID
+
+TIPOS -> TIPO 
+	| TIPO , TIPOS
+
+TIPO -> inter
+	| int
+	| bool
+
+SECUENCIACION -> INSTRUCCION
+	| INSTRUCCION ; SECUENCIACION
+
+INSTRUCCION -> IO
+	| VARIABLES asig EXPRESION 
+	| CONDICIONAL
+	| ITERACION
+	| BLOQUE
+	#Falta ver por la postcondicion, si de verdad es lo ultimo que se ejecuta en un codigo
+
+IO -> read id 
+	| print VARIABLES
+	| println VARIABLES
+
+CONDICIONAL -> if EXPBOOL then INSTRUCCION else INSTRUCCION
+	| if EXPBOOL then INSTRUCCION
+	| case EXPINT of CASOS end
+
+CASOS -> EXPINTER ==> INSTRUCCION
+	| EXPINTER ==> INSTRUCCION CASOS
+
+ITERACION -> for VARIABLES in inter do INSTRUCCION
+	| while EXPBOOL do INSTRUCCION
+
