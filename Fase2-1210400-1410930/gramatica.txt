@@ -1,0 +1,179 @@
+GRAMATICA 
+ETAPA 2
+
+Javier Medina (12-10400)
+David Rodriguez (14-10930)
+
+
+En la sguiente gramatica los simbolos terminales son representados por palabra con letras minusculas (Tokens)
+y los NO terminales son representados con palabras escritas esn MAYUSCULAS
+
+****************************
+INICIO -> PROGRAMA
+
+
+****************************
+
+
+PROGRAMA -> TkProgram 
+          | TkProgram SEQ
+          | TkProgram SEQ POSTCOND
+
+
+****************************
+
+
+SEQ -> INSTRUCCION TkSemicolon SEQ
+     | INSTRUCCION
+
+
+****************************
+
+INSTRUCCION -> IO
+             | ASIGNACION
+             | CONDICIONAL
+             | ITERACION
+             | BLOQUE
+             | CONVERTIR
+
+****************************
+
+
+IO -> TkRead EXPRESION
+    | TkPrint EXPRESION
+    | TkPrintln EXPRESION
+
+****************************
+
+
+ASIGNACION -> IDENTIFICADOR TkAsig EXPRESION
+
+
+****************************
+
+
+IDENTIFICADOR -> TkId
+
+****************************
+
+
+BLOQUE -> TkBegin TkEnd
+        | TkBegin SEQ TkEnd
+        | TkBegin TkDeclare DECL_VAR TkEnd
+        | TkBegin TkDeclare DECL_VAR SEQ TkEnd
+
+
+****************************
+
+DECL_VAR -> LISTA_VAR TkAs TIPOS TkSemicolon DECL_VAR
+          | LISTA_VAR TkAs TIPOS
+
+
+
+****************************
+
+LISTA_VAR -> TkId TkComma LISTA_VAR
+           | TkId
+
+
+****************************
+
+
+VARIABLES -> identificador , VARIABLES
+    	   | identificador
+
+****************************
+
+TIPOS -> TIPO TkComma TIPOS
+       | TIPO
+
+****************************
+
+TIPO -> TkInt
+      | TkBool
+      | TkInter
+
+****************************
+
+VARIABLES -> LITERAL
+           | IDENTIFICADOR
+           | VARIABLES TkComma VARIABLES
+
+
+****************************
+
+CONDICIONAL -> TkIf EXPRESION TkThen INSTRUCCION TkElse INSTRUCCION
+             | TkIf EXPRESION TkThen INSTRUCCION
+             | TkCase EXPRESION TkOf LISTA_CASE TkEnd
+   
+
+****************************
+
+LISTA_CASE -> EXPRESION TkArrow INSTRUCCION
+            | EXPRESION TkArrow INSTRUCCION LISTA_CASE
+
+
+****************************
+
+ITERACION -> TkFor IDENTIFICADOR TkIn EXPRESION TkDo INSTRUCCION
+           | TkWhile EXPRESION TkDo INSTRUCCION
+
+****************************
+
+EXPRESION -> CONVERTIR
+           | VARIABLES
+           | EXPRESION TkPlus EXPRESION
+           | EXPRESION TkMinus EXPRESION
+           | EXPRESION TkMod EXPRESION
+           | EXPRESION TkMult EXPRESION
+           | EXPRESION TkDiv EXPRESION
+           | EXPRESION TkCap EXPRESION
+           | EXPRESION TkSoForth EXPRESION
+           | EXPRESION TkAnd EXPRESION
+           | EXPRESION TkOr EXPRESION
+           | EXPRESION TkIn EXPRESION
+           | EXPRESION TkEqual EXPRESION
+           | EXPRESION TkNEqual EXPRESION
+           | EXPRESION TkGreater EXPRESION
+           | EXPRESION TkGeq EXPRESION
+           | EXPRESION TkLess EXPRESION
+           | EXPRESION TkLeq EXPRESION
+           | TkOpenPar EXPRESION TkClosePar
+           | TkNot EXPRESION
+           | TkMinus LITERAL %prec UMINUS
+           | EXPRESION TkComma EXPRESION
+
+
+****************************
+
+
+LITERAL -> TkNum
+         | TkTrue
+         | TkFalse
+         | TkString           
+
+****************************
+
+
+CONVERTIR -> TkItoi TkOpenPar IDENTIFICADOR TkClosePar
+           | TkLen TkOpenPar IDENTIFICADOR TkClosePar
+           | TkMax TkOpenPar IDENTIFICADOR TkClosePar
+           | TkMin TkOpenPar IDENTIFICADOR TkClosePar
+ 
+****************************
+
+POSTCOND -> TkOpenBra TkPost TkTwoPoints EXP_CUANTIFICADOR TkCloseBra
+
+
+****************************
+
+EXP_CUANTIFICADOR -> TkOpenPar TkForall IDENTIFICADOR TkPipe IDENTIFICADOR TkIn IDENTIFICADOR TkTwoPoints EXP_CUANTIFICADOR TkClosePar
+                   | TkOpenPar TkForall IDENTIFICADOR TkPipe IDENTIFICADOR TkIn IDENTIFICADOR TkTwoPoints EXPRESION TkClosePar
+
+****************************
+
+
+EXP_CUANTIFICADOR -> TkOpenPar TkExists IDENTIFICADOR TkPipe IDENTIFICADOR TkIn IDENTIFICADOR TkTwoPoints EXP_CUANTIFICADOR TkClosePar
+                   | TkOpenPar TkExists IDENTIFICADOR TkPipe IDENTIFICADOR TkIn IDENTIFICADOR TkTwoPoints EXPRESION TkClosePar
+
+****************************
