@@ -52,25 +52,6 @@ class Node:
 
 #precedencia
 
-class Node():
-    """docstring for Node"""
-    def __init__(self, tipo, hijos=None, hoja=None, tabs=0):
-        self.type = tipo
-        if hijos:
-            self.hijos = hijos
-        else:
-            self.hijos = []
-        self.hoja = hoja
-        self.tabs = tabs
-
-    def imprimir(self):
-        for i in range(self.tabs):
-            print("\t", end='')
-
-
-
-
-
 precedence = (
     ('right', 'TkSemicolon'),
     ('right', 'TkItoi', 'TkMax', 'TkMin', 'TkLen'),
@@ -163,7 +144,7 @@ def p_asignacion(p):
 def p_identficador(p):
     """
     IDENTIFICADOR : TkId
-    """
+    """ 
     p[0] = Node("Ident: " + str(p[1]), None)
 
 def p_bloque(p):
@@ -209,9 +190,9 @@ def p_tipos(p):
           | TIPO
     """
     if len(p) == 4:
-        p[0] = Node(str(p[1].nombre) + ', ' + str(p[3].nombre), None)
+       p[0] = Node(str(p[1].nombre) + ', ' + str(p[3].nombre), None)
     else:
-        p[0] = Node(str(p[1].nombre), None)
+       p[0] = Node(str(p[1].nombre), None)
 
     #print("tipos")
 
@@ -262,9 +243,9 @@ def p_lista_case(p):
                | EXPRESION TkArrow INSTRUCCION LISTA_CASE
     """
     if len(p) == 4:
-        p[0] = Node("Guard", [p[1], p[3]])
+       p[0] = Node("Guard", [p[1], p[3]])
     else:
-        p[0] = Node("Guard", [p[1], p[3], p[4]])
+       p[0] = Node("Guard", [p[1], p[3], p[4]])
 
     #print("lista case")
 
@@ -274,9 +255,9 @@ def p_iteracion(p):
               | TkWhile EXPRESION TkDo INSTRUCCION
     """
     if len(p) == 7:
-        p[0] = Node("For", [p[2], p[4], p[6]])
+       p[0] = Node("For", [p[2], p[4], p[6]])
     else:
-        p[0] = Node("While", [p[2], p[4]])
+       p[0] = Node("While", [p[2], p[4]])
 
     #print("iteracion")
 
@@ -336,7 +317,7 @@ def p_expresion(p):
         elif p[2] == '..':
             p[0] = Node("Exp", [Node("So Forth", [p[1], p[3]])])
         elif p[2] == '<>':
-            p[0] = Node("Exp", [Node("Cap", [p[1], p[3]])])
+            p[0] = Node("Exp", [Node("Cap", [p[1], p[3]])])        
         elif p[2] == ',':
             p[0] = Node(None,[p[1],p[3]])
 
@@ -390,7 +371,7 @@ def p_exp_cuantificador_forall(p):
     """
     EXP_CUANTIFICADOR : TkOpenPar TkForall IDENTIFICADOR TkPipe IDENTIFICADOR TkIn IDENTIFICADOR TkTwoPoints EXP_CUANTIFICADOR TkClosePar
                       | TkOpenPar TkForall IDENTIFICADOR TkPipe IDENTIFICADOR TkIn IDENTIFICADOR TkTwoPoints EXPRESION TkClosePar
-    """
+    """ 
     p[0] = Node("Forall", [p[3], p[5], p[7], p[9]])
 
     #print("forall")

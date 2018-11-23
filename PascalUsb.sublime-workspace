@@ -1,0 +1,976 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"le",
+				"left"
+			],
+			[
+				"sef",
+				"self"
+			],
+			[
+				"ti",
+				"TIPO"
+			],
+			[
+				"exp",
+				"EXPBOOL"
+			],
+			[
+				"in",
+				"INSTRUCCION"
+			],
+			[
+				"sabio",
+				"sabioGenerarArchivoRuta"
+			],
+			[
+				"Sabio",
+				"SabioConocimiento"
+			],
+			[
+				"sab",
+				"sabioLeerArchivoRuta"
+			],
+			[
+				"puts",
+				"putStrLn"
+			],
+			[
+				"get",
+				"getLine"
+			],
+			[
+				"pt",
+				"putStrLn"
+			],
+			[
+				"put",
+				"putStrLn"
+			],
+			[
+				"mos",
+				"mostrarLab"
+			],
+			[
+				"sabico",
+				"SabioConocimiento"
+			],
+			[
+				"last",
+				"last_ip"
+			],
+			[
+				"las",
+				"last_domain"
+			],
+			[
+				"tip",
+				"tipo_carro"
+			],
+			[
+				"def",
+				"default"
+			],
+			[
+				"toke",
+				"tokens_validos"
+			],
+			[
+				"TOKE",
+				"tokens_validos"
+			],
+			[
+				"to",
+				"tokens_invalidos"
+			],
+			[
+				"tok",
+				"token_info"
+			],
+			[
+				"lex",
+				"lexer"
+			],
+			[
+				"lin",
+				"lineno"
+			],
+			[
+				"file",
+				"filepath"
+			],
+			[
+				"fil",
+				"ffilepath\tFilePathField (ffilepath)"
+			],
+			[
+				"Int",
+				"Int"
+			],
+			[
+				"x",
+				"x"
+			],
+			[
+				"voacl",
+				"vocals"
+			],
+			[
+				"if",
+				"ifmain\tif __name__ == '__main__'"
+			],
+			[
+				"len",
+				"length"
+			],
+			[
+				"I",
+				"Int"
+			],
+			[
+				"text",
+				"text-decoration\tproperty"
+			],
+			[
+				"az",
+				"azul-marino"
+			],
+			[
+				"bac",
+				"background-position\tproperty"
+			],
+			[
+				"back",
+				"background-size\tproperty"
+			],
+			[
+				"pad",
+				"padding-bottom\tproperty"
+			],
+			[
+				"mar",
+				"margin-right\tproperty"
+			],
+			[
+				"pa",
+				"padding\tproperty"
+			],
+			[
+				"ma",
+				"margin-top\tproperty"
+			],
+			[
+				"padd",
+				"padding-right\tproperty"
+			],
+			[
+				"paddi",
+				"padding-right\tproperty"
+			],
+			[
+				"font",
+				"font-size\tproperty"
+			],
+			[
+				"textal",
+				"text-align\tproperty"
+			],
+			[
+				"margin",
+				"margin-left\tproperty"
+			],
+			[
+				"margi",
+				"margin-left\tproperty"
+			],
+			[
+				"te",
+				"text-align\tproperty"
+			],
+			[
+				"over",
+				"overflow-x\tproperty"
+			],
+			[
+				"backgri",
+				"background-image\tproperty"
+			],
+			[
+				"squ",
+				"square"
+			],
+			[
+				"const",
+				"constructor"
+			],
+			[
+				"cla",
+				"className"
+			],
+			[
+				"cl",
+				"className"
+			],
+			[
+				"he",
+				"height\tproperty"
+			],
+			[
+				"btn",
+				"btn-default"
+			],
+			[
+				"col-md",
+				"col-md-3"
+			],
+			[
+				"off",
+				"col-md-offset-1"
+			],
+			[
+				"co",
+				"contain\tbackground-size"
+			],
+			[
+				"padi",
+				"padding-right\tproperty"
+			],
+			[
+				"backi",
+				"background-image\tproperty"
+			],
+			[
+				"ba",
+				"background-color\tproperty"
+			],
+			[
+				"no",
+				"no-repeat\tbackground-repeat"
+			],
+			[
+				"au",
+				"auto\theight"
+			],
+			[
+				"font-s",
+				"font-size\tproperty"
+			],
+			[
+				"ur",
+				"URL"
+			],
+			[
+				"col",
+				"col-md-6"
+			],
+			[
+				"page",
+				"page-section"
+			],
+			[
+				"aut",
+				"auto"
+			],
+			[
+				"widt",
+				"width"
+			],
+			[
+				"imge",
+				"images"
+			],
+			[
+				"max",
+				"max-width\tproperty"
+			],
+			[
+				"wo",
+				"work_on"
+			],
+			[
+				"selec",
+				"selectedHero"
+			],
+			[
+				"wid",
+				"width\tproperty"
+			],
+			[
+				"pai",
+				"padding\tproperty"
+			],
+			[
+				"lis",
+				"list-style-type\tproperty"
+			],
+			[
+				"sele",
+				"selectedHero"
+			],
+			[
+				"re",
+				"results"
+			],
+			[
+				"de",
+				"DetailsView"
+			],
+			[
+				"dea",
+				"detail"
+			],
+			[
+				"ques",
+				"question"
+			],
+			[
+				"question",
+				"question_id"
+			],
+			[
+				"dateti",
+				"datetime"
+			],
+			[
+				"mode",
+				"model"
+			],
+			[
+				"one",
+				"one-half"
+			],
+			[
+				"la",
+				"last"
+			],
+			[
+				"inc",
+				"include"
+			],
+			[
+				"tomar",
+				"Tomar_Tiempo"
+			],
+			[
+				"tot",
+				"Total_Time_End"
+			],
+			[
+				"To",
+				"Total_Time_Start"
+			],
+			[
+				"tota",
+				"Total_Time_End"
+			],
+			[
+				"time",
+				"Tomar_Tiempo"
+			],
+			[
+				"pthe",
+				"pthread_t"
+			],
+			[
+				"count",
+				"countArchivos"
+			],
+			[
+				"pth",
+				"pthread_mutex_lock"
+			],
+			[
+				"token",
+				"tokens"
+			],
+			[
+				"the",
+				"threads"
+			],
+			[
+				"arg",
+				"arg"
+			],
+			[
+				"i",
+				"i"
+			],
+			[
+				"num",
+				"NumHilos"
+			],
+			[
+				"read",
+				"readBuff"
+			],
+			[
+				"can",
+				"countArchivos"
+			],
+			[
+				"lee",
+				"leer_archivo"
+			],
+			[
+				"nom",
+				"nom"
+			],
+			[
+				"str",
+				"strcat"
+			],
+			[
+				"variab",
+				"VARIABLE"
+			],
+			[
+				"nu",
+				"NumProcesos"
+			],
+			[
+				"p",
+				"printf\tprintf …"
+			],
+			[
+				"st",
+				"strtok"
+			],
+			[
+				"S",
+				"SymTable"
+			],
+			[
+				"icn",
+				"include"
+			],
+			[
+				"Ex",
+				"EXIT_FAILURE"
+			],
+			[
+				"NU",
+				"NULL"
+			],
+			[
+				"ar",
+				"argv"
+			],
+			[
+				"Varia",
+				"VariableArr"
+			],
+			[
+				"Var",
+				"Variable"
+			],
+			[
+				"im",
+				"url_imagen"
+			],
+			[
+				"url",
+				"url_imagen"
+			],
+			[
+				"url_",
+				"url_imagen"
+			],
+			[
+				"image",
+				"ImageField"
+			],
+			[
+				"cor",
+				"corcheteAbre"
+			],
+			[
+				"exprAr",
+				"ExprAritmeticaVar"
+			],
+			[
+				"varia",
+				"Variable"
+			],
+			[
+				"ex",
+				"ExpresionAritmetica"
+			],
+			[
+				"corc",
+				"corcheteCierra"
+			],
+			[
+				"Ima",
+				"ImageField"
+			],
+			[
+				"beb",
+				"bebida"
+			],
+			[
+				"nombre",
+				"nombrebeb"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/C++/C++ Single File.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 229.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"sublimelinter",
+				"SublimeLinter: Lint This View"
+			],
+			[
+				"pac",
+				"Package Control: Install Package"
+			],
+			[
+				"pack",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"package",
+				"Package Control: Install Package"
+			],
+			[
+				"",
+				"Package Control: Install Package"
+			],
+			[
+				"comm",
+				"Toggle Comment"
+			],
+			[
+				"boxy",
+				"Boxy Theme: Preferences"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"pak",
+				"Install Package Control"
+			],
+			[
+				"colo",
+				"Color Picker"
+			],
+			[
+				"mark",
+				"MarkdownLivePreview: Edit Current File"
+			],
+			[
+				"pa",
+				"Package Control: Install Package"
+			],
+			[
+				"paka",
+				"Package Control: Add Channel"
+			],
+			[
+				"mar",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"markdown li",
+				"MarkdownLivePreview: Edit Current File"
+			],
+			[
+				"Markdown",
+				"Set Syntax: Markdown"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"brow",
+				"Preferences: Browse Packages"
+			]
+		],
+		"width": 479.0
+	},
+	"console":
+	{
+		"height": 157.0,
+		"history":
+		[
+			"./a.out"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/david/guias usb/traductores/PascalUSB-traductores/.gitignore",
+		"/home/david/guias usb/traductores/PascalUSB-traductores/lexer.py",
+		"/home/david/guias usb/traductores/PascalUSB-traductores/parser.py",
+		"/home/david/guias usb/traductores/PascalUSB-traductores/pruebas2/Pruebas/pruebaJavi.pusb",
+		"/home/david/guias usb/traductores/PascalUSB-traductores/pruebas2/Pruebas/pruebaX.pusb",
+		"/home/david/guias usb/traductores/PascalUSB-traductores/pruebas2/Pruebas/pruebaEjempl.pusb",
+		"/home/david/guias usb/traductores/PascalUSB-traductores/gramatica.txt",
+		"/home/david/Descargas/fase2.py",
+		"/home/david/guias usb/traductores/PascalUSB-traductores/parser.out",
+		"/home/david/guias usb/traductores/PascalUSB-traductores/pruebas2/Pruebas/pruebaCondicionales.pusb",
+		"/home/david/guias usb/traductores/PascalUSB-traductores/Gramatica.txt",
+		"/home/david/guias usb/traductores/PascalUSB-traductores/pruebas2/Pruebas/post.pusb",
+		"/home/david/guias usb/traductores/PascalUSB-traductores/pruebas/prueba3.pusb",
+		"/home/david/guias usb/traductores/PascalUSB-traductores/pruebas/prueba2.pusb",
+		"/home/david/guias usb/traductores/traductores-batran/Parser.y",
+		"/home/david/pruebas/prueba.hs",
+		"/home/david/guias usb/Lenguajes de programacion/laboratorio/Proy1-Lenguajes/src/a.txt",
+		"/home/david/guias usb/Lenguajes de programacion/laboratorio/Proy1-Lenguajes/src/Laberinto.hs",
+		"/home/david/guias usb/Lenguajes de programacion/laboratorio/Proy1-Lenguajes/src/Sabio.hs",
+		"/home/david/guias usb/traductores/traductores-batran/Lexer.x",
+		"/home/david/guias usb/Lenguajes de programacion/laboratorio/Proy1-Lenguajes/makefile",
+		"/home/david/guias usb/redes de computadoras/laboratorios/tarea1.sh",
+		"/home/david/pruebas/prueba.sh",
+		"/home/david/pruebas/prueba.c",
+		"/home/david/Descargas/fase1.py",
+		"/home/david/pruebas/prueba.py",
+		"/home/david/guias usb/traductores/PascalUSB-traductores/prueba.pusb",
+		"/home/david/guias usb/traductores/PascalUSB-traductores/tokens-pascalUSB.md",
+		"/home/david/guias usb/traductores/batran-Julio-Leo/Lex.py",
+		"/home/david/guias usb/Lenguajes de programacion/laboratorio/Proy1-Lenguajes/Proy1-Lenguajes.cabal",
+		"/home/david/guias usb/traductores/batran-Julio-Leo/BasicTran.py",
+		"/home/david/Descargas/ply-3.11/setup.py",
+		"/home/david/work/lincoln_navigator/index.html",
+		"/home/david/work/index.html",
+		"/home/david/programacion/haskell/equal-side.hs",
+		"/home/david/pruebas/prueba2.hs",
+		"/home/david/guias usb/traductores/PascalUSB-traductores/tokens-pascalUSB",
+		"/home/david/pruebas/quicksort.hs",
+		"/home/david/pruebas/prueba.js",
+		"/home/david/programacion/programacion.sublime-project",
+		"/home/david/guias usb/calculo numerico/laboratorios/mis_laboratorios/lab 1/funcionMrecursiva.m",
+		"/home/david/pruebas/prueba.matlab",
+		"/home/david/Escritorio/pruebaHaskellDavid.txt",
+		"/home/david/work/darient/darient/css/style.css",
+		"/home/david/work/darient/darient/clientes.html",
+		"/home/david/work/darient/credenciales",
+		"/home/david/work/darient/darient/portafolio.html",
+		"/home/david/work/darient/darient/clientes-prueba.html",
+		"/home/david/work/darient/darient/index.html",
+		"/home/david/programacion web/react/my-app/src/index.js",
+		"/home/david/programacion web/react/my-app/src/App.css",
+		"/home/david/programacion web/react/my-app/src/App.js",
+		"/home/david/programacion web/react/my-app/src/App.test.js",
+		"/home/david/dtdesk",
+		"/home/david/work/darient/darient/js/particle.min.js",
+		"/home/david/work/pase.fit/pase.fit/app/config/parameters.yml",
+		"/home/david/work/pase.fit/pase.fit/app/config/config.yml",
+		"/home/david/programacion web/angular/algunlar-tour-of-heroes/src/app/hero-detail/hero-detail.component.ts",
+		"/home/david/programacion web/angular/algunlar-tour-of-heroes/src/app/heroes/heroes.component.ts",
+		"/home/david/programacion web/angular/algunlar-tour-of-heroes/src/app/app.component.html",
+		"/home/david/programacion web/angular/algunlar-tour-of-heroes/src/app/heroes/heroes.component.html",
+		"/home/david/programacion web/angular/algunlar-tour-of-heroes/src/app/hero-detail/hero-detail.component.html",
+		"/home/david/programacion web/angular/algunlar-tour-of-heroes/src/app/app.module.ts",
+		"/home/david/programacion web/angular/algunlar-tour-of-heroes/src/app/heroes/heroes.component.spec.ts",
+		"/home/david/programacion web/angular/algunlar-tour-of-heroes/src/app/app.component.ts",
+		"/home/david/programacion web/angular/algunlar-tour-of-heroes/src/app/mock-heroes.ts",
+		"/home/david/programacion web/angular/algunlar-tour-of-heroes/src/app/heroes/heroes.component.css",
+		"/home/david/programacion web/angular/algunlar-tour-of-heroes/src/app/hero.ts",
+		"/home/david/programacion web/angular/algunlar-tour-of-heroes/src/app/app.component.css",
+		"/home/david/programacion web/angular/algunlar-tour-of-heroes/src/app/app.component.spec.ts",
+		"/home/david/.config/sublime-text-3/Packages/pygments/all/pygments/token.py",
+		"/home/david/.config/sublime-text-3/Packages/User/Haskell.sublime-settings",
+		"/home/david/programacion web/django/djangoTutorial/mysite/polls/models.py",
+		"/home/david/programacion web/django/djangoTutorial/mysite/mysite/urls.py",
+		"/home/david/Escritorio/Marstimer.jar",
+		"/home/david/programacion web/django/djangoTutorial/mysite/polls/urls.py",
+		"/home/david/programacion web/django/djangoTutorial/mysite/polls/views.py",
+		"/home/david/programacion web/django/djangoTutorial/mysite/mysite/settings.py",
+		"/home/david/programacion web/django/djangoTutorial/mysite/polls/admin.py",
+		"/home/david/programacion web/django/djangoTutorial/mysite/polls/apps.py",
+		"/home/david/work/darient/dtdesk-project/dtdesk-project/dtdesk/settings.py",
+		"/home/david/guias usb/Operativos/Laboratorio/proyecto2/funciones.c",
+		"/home/david/guias usb/Operativos/Laboratorio/proyecto2/procesos.c",
+		"/home/david/guias usb/Operativos/Laboratorio/proyecto2/main.c",
+		"/home/david/guias usb/Operativos/Laboratorio/proyecto2/hilo.c",
+		"/home/david/Descargas/Telegram Desktop/censo-p.c",
+		"/home/david/guias usb/Operativos/Laboratorio/proyecto2/Ejemplo_time.c",
+		"/home/david/guias usb/Operativos/Laboratorio/proyecto2/6d/caracas.csv",
+		"/home/david/Descargas/Telegram Desktop/censo-t.c",
+		"/home/david/guias usb/Operativos/Laboratorio/proyecto2/6d/maracay.csv",
+		"/home/david/guias usb/Operativos/Laboratorio/proyecto1/fssh.c",
+		"/home/david/guias usb/Operativos/Laboratorio/proyecto2/6d/6d.txt",
+		"/home/david/guias usb/Operativos/Laboratorio/proyecto2/5departamentos/5departamentos.txt",
+		"/home/david/guias usb/Operativos/Laboratorio/proyecto1/src/cat.c",
+		"/home/david/guias usb/traductores/AsGArD/SymbolTable.hs",
+		"/home/david/guias usb/traductores/traductores-batran/TablaSimbolos.hs",
+		"/home/david/guias usb/traductores/AsGArD/AsgardSemantic.hs",
+		"/home/david/guias usb/traductores/traductores-batran/AST.hs",
+		"/home/david/guias usb/traductores/AsGArD/Canvas.hs",
+		"/home/david/guias usb/traductores/AsGArD/VarTypes.hs",
+		"/home/david/guias usb/traductores/traductores-batran/Parser.info",
+		"/home/david/guias usb/Operativos/Laboratorio/proyecto1/src/cat.h",
+		"/home/david/guias usb/Operativos/Laboratorio/proyecto2/readCsv.c",
+		"/home/david/guias usb/traductores/traductores-batran/Compilar",
+		"/home/david/guias usb/traductores/traductores-batran/BasicTran",
+		"/home/david/work/darient/affiap/afiapp/afiapp_cb/settings.py",
+		"/home/david/work/darient/affiap/afiapp/administrador/models.py",
+		"/home/david/work/darient/affiap/afiapp/administrador/forms.py",
+		"/home/david/work/darient/affiap/afiapp/afiapp_cb/templates/administrador/base_admin.html",
+		"/home/david/work/darient/affiap/afiapp/administrador/views.py",
+		"/home/david/work/darient/affiap/afiapp/afiapp_cb/templates/administrador/categorias.html",
+		"/home/david/guias usb/traductores/AsGArD/AsgardParser.hs",
+		"/home/david/guias usb/traductores/AsGArD/Tokens.hs",
+		"/home/david/guias usb/traductores/AsGArD/Main.hs",
+		"/home/david/guias usb/traductores/AsGArD/AsgardInterpreter.hs",
+		"/home/david/guias usb/traductores/traductores-batran/inputs/pruebaParser.bt",
+		"/home/david/guias usb/traductores/traductores-batran/inputs/factorial.bt",
+		"/home/david/guias usb/traductores/traductores-batran/inputs/p1.bt",
+		"/home/david/guias usb/traductores/traductores-batran/inputs/p2.bt",
+		"/home/david/guias usb/traductores/traductores-batran/inputs/p3.bt",
+		"/home/david/guias usb/traductores/traductores-batran/inputs/programaBasico.bt",
+		"/home/david/guias usb/traductores/traductores-batran/inputs/programaError.bt",
+		"/home/david/guias usb/traductores/traductores-batran/inputs/programaLargo.bt",
+		"/home/david/guias usb/traductores/traductores-batran/Parser.hs",
+		"/home/david/guias usb/bases de datos/bebedores/bebLoad.sql",
+		"/home/david/guias usb/bases de datos/lab7/misSoluciones.sql",
+		"/home/david/guias usb/bases de datos/bebedores/bebSolutions.sql",
+		"/home/david/guias usb/bases de datos/bebedores/a.cpp"
+	],
+	"find":
+	{
+		"height": 48.0
+	},
+	"find_in_files":
+	{
+		"height": 199.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			":",
+			"VARIABLES",
+			"CONVERTIR",
+			"print",
+			"Node",
+			"EXPRESION",
+			"Exp",
+			"EXPRESION",
+			"VARIABLES",
+			"\"Declare\"",
+			"BLOQUE",
+			"TkId",
+			"so",
+			"not",
+			"rule 56",
+			"SEQ",
+			"INSTRUCCION",
+			"BLOQUE",
+			"!",
+			"INSTRUCCION",
+			"variables",
+			"expresion",
+			"SECUENCIACION",
+			"INSTRUCCION",
+			"VARIABLES",
+			"IDENTIFICADOR",
+			"SoF",
+			"TkSoFarth",
+			"IDENTIFICADOR",
+			"EXP_BOOL",
+			"semiCo",
+			"POSTCOND",
+			"EXPRESION",
+			"EXP_BOOL",
+			"EXP_ENTERO",
+			"CASOS",
+			"INSTRUCCION",
+			"ID",
+			"exp_bool([",
+			"p[0]",
+			"exp_entero([",
+			"expresion(",
+			"INSTRUCCION",
+			"lista_case([",
+			"condicional_if([",
+			"instruccion",
+			"DECLARACION",
+			"secuenciacion",
+			"LISTA_TIPO",
+			"])\n",
+			"forall",
+			"EXPBOOL",
+			"EXPINTER",
+			"EXPINT",
+			"EXPBOOL",
+			"INSTRUCCION",
+			" IO",
+			"INSTRUCCION",
+			"vacio",
+			"VACIO",
+			"secuenciacion",
+			"  "
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"identificador"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 69.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.SublimeLinter":
+	{
+		"height": 0.0
+	},
+	"output.exec":
+	{
+		"height": 112.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.markdown":
+	{
+		"height": 120.0
+	},
+	"output.unsaved_changes":
+	{
+		"height": 132.0
+	},
+	"pinned_build_system": "",
+	"project": "PascalUsb.sublime-project",
+	"replace":
+	{
+		"height": 90.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 357.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 657.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 167.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

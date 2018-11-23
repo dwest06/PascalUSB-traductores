@@ -232,13 +232,6 @@ while data:
     #leemos otra linea
     data = file.readline()
 
-#Verificamos si hay elementos en la lista de los tokens invalidos
-#Imprimimos los tokens
-if TOKENS_INVALIDOS:
-    for i in TOKENS_INVALIDOS:
-        print(i)
-else:
-    for i in TOKENS_VALIDOS:
-        print(i)
 
-#print(TOKENS_VALIDOS)
+
+
