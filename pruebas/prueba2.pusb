@@ -1,3 +1,6 @@
 program
-	println "Hello World";
-	read b
+    begin
+        if a then
+            print ("H")
+    end
+program
