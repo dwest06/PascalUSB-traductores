@@ -226,10 +226,10 @@ def p_condicional(p):
     """
     #Cuando es if then else
     if len(p) == 7:
-        p[0] = Node("If", [p[2], p[4], p[6]])
+        p[0] = Node("If", [p[2], Node("Then",[p[4]]), p[6]])
     #Cuando es if then
     elif len(p) == 5:
-        p[0] = Node("If", [p[2], p[4]])
+        p[0] = Node("If", [p[2],Node("Then",[p[4]])])
     #Cuando es Case
     else:
         p[0] = Node("Case", [p[2], p[4]])

@@ -1,5 +1,5 @@
 program
 	begin
-		print "a";
-		print "b"
+		if a == b then
+			a:=1
 	end
