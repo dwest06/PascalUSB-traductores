@@ -285,7 +285,7 @@ def p_expresion(p):
               | EXPRESION TkLeq EXPRESION
               | TkOpenPar EXPRESION TkClosePar
               | TkNot EXPRESION
-              | TkMinus LITERAL %prec UMINUS
+              | TkMinus VARIABLES %prec UMINUS
               | EXPRESION TkComma EXPRESION
     """
 

@@ -22,7 +22,7 @@ program
 						declare z as inter
 						println a, b;
 						z := x <> y;
-						println min(z), max(z)
+						println min(z),"..", max(z)
 					end
 		end;
 		i := 3;
