@@ -320,6 +320,12 @@ def p_expresion(p):
             p[0] = Node("Exp", [Node("Cap", [p[1], p[3]])])        
         elif p[2] == ',':
             p[0] = Node(None,[p[1],p[3]])
+        elif p[2] == 'or':
+            p[0] = Node("Exp", [Node("Or", [p[1], p[3]])]) 
+        elif p[2] == 'and':
+            p[0] = Node("Exp", [Node("And", [p[1], p[3]])])
+        elif p[2] == 'in':
+            p[0] = Node("Exp", [Node("In", [p[1], p[3]])]) 
 
     elif len(p) == 3:
         if p[1] != "-":
@@ -393,7 +399,7 @@ def p_vacio(p):
 """
 
 def p_error(p):
-    print("Syntax error in " + str(p.lineno) + ", column " + str(p.lexpos) + ": unexpected token '" + str(p.value) + "'")
+    print("Syntax error in " + str((p.lineno//2)-1) + ", column " + str(p.lexpos) + ": unexpected token '" + str(p.value) + "'")
     exit(1)
 
 
