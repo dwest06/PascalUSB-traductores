@@ -98,12 +98,17 @@ def p_programa(p):
 
 def p_seq(p):
     """
-    SEQ : INSTRUCCION TkSemicolon SEQ
+    SEQ : INSTRUCCION_SIN_SEQ
         | INSTRUCCION
+        | INSTRUCCION_SIN_SEQ SEQ 
+        | INSTRUCCION TkSemicolon SEQ
 
     """
     if len(p) == 4:
         p[0] = Node("Sequencing", [p[1], p[3]])
+    elif len(p) == 3:
+        p[0] == Node(None,[p[1],p[2]])
+        print ("aja instruccion sin seq y suq " + str(p[2].nombre))
     else:
         p[0] = Node(None, [p[1]])
     #print("SEQ")
@@ -112,10 +117,15 @@ def p_instruccion(p):
     """
     INSTRUCCION : IO
                 | ASIGNACION
-                | CONDICIONAL
-                | ITERACION
                 | BLOQUE
                 | CONVERTIR
+    """
+    p[0] = Node(None, [p[1]])
+    print("aqui " + str(p[1].nombre))
+def p_instruccion_sin_seq(p):
+    """
+    INSTRUCCION_SIN_SEQ : CONDICIONAL
+                        | ITERACION
     """
     p[0] = Node(None, [p[1]])
 
@@ -129,6 +139,7 @@ def p_io(p):
         p[0] = Node("Printl", [p[2]])
     elif p[1] == "print":
         p[0] = Node("Print", [p[2]])
+        print("print " + str(p[2].nombre))
     else:
         p[0] = Node("Read", [p[2]])
 
@@ -236,7 +247,6 @@ def p_condicional(p):
 
     #print("codicional")
 
-
 def p_lista_case(p):
     """
     LISTA_CASE : EXPRESION TkArrow INSTRUCCION
@@ -265,8 +275,8 @@ def p_iteracion(p):
 
 def p_expresion(p):
     """
-    EXPRESION : CONVERTIR
-              | VARIABLES
+    EXPRESION : VARIABLES
+              | CONVERTIR
               | EXPRESION TkPlus EXPRESION
               | EXPRESION TkMinus EXPRESION
               | EXPRESION TkMod EXPRESION
@@ -326,7 +336,6 @@ def p_expresion(p):
             p[0] = Node("Exp", [Node("And", [p[1], p[3]])])
         elif p[2] == 'in':
             p[0] = Node("Exp", [Node("In", [p[1], p[3]])]) 
-
     elif len(p) == 3:
         if p[1] != "-":
             p[0] = Node("Exp", [Node("Not", [p[2]])])
@@ -348,12 +357,11 @@ def p_literal(p):
             | TkString
     """
     if type(p[1]) == str:
-        p[0] = Node(str(p[1]), [])
+        p[0] = Node(str(p[1]),None)
     else:
         p[0] = Node('Literal: '+ str(p[1]), None)
     #print("literal ")
 
-################################################
 
 def p_convertir(p):
     """

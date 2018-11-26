@@ -1,2 +1,6 @@
 program
-	print max(a),"a",min(b),"a"
+	begin
+		if a == b then
+			a:=1
+		print a
+	end
