@@ -1,6 +1,6 @@
 PascalUsb.sublime-project
 PascalUsb.sublime-workspace
-./__pycache__/
+__pycache__/
 ./ply/
 parsetab.py
 parser.out
