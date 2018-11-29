@@ -28,7 +28,7 @@ class Node:
             self.hijos = []
 
     def imprimir(self, espacios, end=False):
-        if self.nombre != None:
+        if self.nombre is not None:
             if not end:
                 print(" "*espacios +self.nombre)
             else:
@@ -40,14 +40,18 @@ class Node:
         for index, hijo in enumerate(self.hijos):
             if self.nombre == 'Declare':
                 if index == 0:
-                    hijo.imprimir(self.espacios, True)
+                    if hijo is not None:
+                        hijo.imprimir(self.espacios, True)
                 elif index == 1:
                     print(' as', end='')
-                    hijo.imprimir(1)
+                    if hijo is not None:
+                        hijo.imprimir(1)
                 else:
-                    hijo.imprimir(self.espacios)
+                    if hijo is not None:
+                        hijo.imprimir(self.espacios)
             else:
-                hijo.imprimir(self.espacios)
+                if hijo is not None:
+                    hijo.imprimir(self.espacios)
 
 
 #precedencia
@@ -84,9 +88,9 @@ def p_qc(p):
 
 def p_programa(p):
     """
-    PROGRAMA : TkProgram 
-             | TkProgram SEQ
-             | TkProgram SEQ POSTCOND
+    PROGRAMA : TkProgram
+             | TkProgram INSTRUCCION
+             | TkProgram INSTRUCCION POSTCOND
     """
     if len(p) == 2:
         p[0] = Node("Program")
@@ -98,19 +102,17 @@ def p_programa(p):
 
 def p_seq(p):
     """
-    SEQ : INSTRUCCION_SIN_SEQ
-        | INSTRUCCION
-        | INSTRUCCION_SIN_SEQ SEQ
+    SEQ : INSTRUCCION
+        | INSTRUCCION2 SEQ
         | INSTRUCCION TkSemicolon SEQ
-
     """
     if len(p) == 4:
         p[0] = Node("Sequencing", [p[1], p[3]])
     elif len(p) == 3:
-        p[0] == Node(None, [p[1], p[2]])
-        print ("aja instruccion sin seq y suq " + str(p[2].nombre))
+        p[0] = Node("Sequencing", [p[1], p[2]])
+        #print("aja instruccion sin seq y suq " + str(p[2].nombre))
     else:
-        p[0] = Node(None, [p[1]])
+        p[0] = Node("Sequencing", [p[1]])
     #print("SEQ")
 
 def p_instruccion(p):
@@ -119,14 +121,17 @@ def p_instruccion(p):
                 | ASIGNACION
                 | BLOQUE
                 | CONVERTIR
+                | INSTRUCCION2
     """
+    #print("aqui " + str(p[1].nombre))
     p[0] = Node(None, [p[1]])
-    print("aqui " + str(p[1].nombre))
-def p_instruccion_sin_seq(p):
+
+def p_instruccion2(p):
     """
-    INSTRUCCION_SIN_SEQ : CONDICIONAL
-                        | ITERACION
+    INSTRUCCION2 : CONDICIONAL
+                 | ITERACION
     """
+    #print("instruccion 2")
     p[0] = Node(None, [p[1]])
 
 def p_io(p):
@@ -139,7 +144,7 @@ def p_io(p):
         p[0] = Node("Printl", [p[2]])
     elif p[1] == "print":
         p[0] = Node("Print", [p[2]])
-        print("print " + str(p[2].nombre))
+        #print("print " + str(p[2].nombre))
     else:
         p[0] = Node("Read", [p[2]])
 
@@ -155,7 +160,7 @@ def p_asignacion(p):
 def p_identficador(p):
     """
     IDENTIFICADOR : TkId
-    """ 
+    """
     p[0] = Node("Ident: " + str(p[1]), None)
 
 def p_bloque(p):
@@ -201,9 +206,9 @@ def p_tipos(p):
           | TIPO
     """
     if len(p) == 4:
-       p[0] = Node(str(p[1].nombre) + ', ' + str(p[3].nombre), None)
+        p[0] = Node(str(p[1].nombre) + ', ' + str(p[3].nombre), None)
     else:
-       p[0] = Node(str(p[1].nombre), None)
+        p[0] = Node(str(p[1].nombre), None)
 
     #print("tipos")
 
@@ -220,7 +225,8 @@ def p_variables(p):
     """
     VARIABLES : LITERAL
               | IDENTIFICADOR
-              | VARIABLES TkComma VARIABLES
+              | LITERAL TkComma VARIABLES
+              | IDENTIFICADOR TkComma VARIABLES
     """
     if len(p) == 2:
         p[0] = Node(None, [p[1]])
@@ -237,10 +243,10 @@ def p_condicional(p):
     """
     #Cuando es if then else
     if len(p) == 7:
-        p[0] = Node("If", [p[2], Node("Then",[p[4]]), p[6]])
+        p[0] = Node("If", [p[2], Node("Then", [p[4]]), p[6]])
     #Cuando es if then
     elif len(p) == 5:
-        p[0] = Node("If", [p[2],Node("Then",[p[4]])])
+        p[0] = Node("If", [p[2], Node("Then", [p[4]])])
     #Cuando es Case
     else:
         p[0] = Node("Case", [p[2], p[4]])
@@ -253,9 +259,9 @@ def p_lista_case(p):
                | EXPRESION TkArrow INSTRUCCION LISTA_CASE
     """
     if len(p) == 4:
-       p[0] = Node("Guard", [p[1], p[3]])
+        p[0] = Node("Guard", [p[1], p[3]])
     else:
-       p[0] = Node("Guard", [p[1], p[3], p[4]])
+        p[0] = Node("Guard", [p[1], p[3], p[4]])
 
     #print("lista case")
 
@@ -265,9 +271,9 @@ def p_iteracion(p):
               | TkWhile EXPRESION TkDo INSTRUCCION
     """
     if len(p) == 7:
-       p[0] = Node("For", [p[2], p[4], p[6]])
+        p[0] = Node("For", [p[2], p[4], p[6]])
     else:
-       p[0] = Node("While", [p[2], p[4]])
+        p[0] = Node("While", [p[2], p[4]])
 
     #print("iteracion")
 
@@ -276,7 +282,6 @@ def p_iteracion(p):
 def p_expresion(p):
     """
     EXPRESION : VARIABLES
-              | CONVERTIR
               | EXPRESION TkPlus EXPRESION
               | EXPRESION TkMinus EXPRESION
               | EXPRESION TkMod EXPRESION
@@ -327,15 +332,15 @@ def p_expresion(p):
         elif p[2] == '..':
             p[0] = Node("Exp", [Node("So Forth", [p[1], p[3]])])
         elif p[2] == '<>':
-            p[0] = Node("Exp", [Node("Cap", [p[1], p[3]])])        
+            p[0] = Node("Exp", [Node("Cap", [p[1], p[3]])])
         elif p[2] == ',':
-            p[0] = Node(None,[p[1],p[3]])
+            p[0] = Node(None, [p[1], p[3]])
         elif p[2] == 'or':
-            p[0] = Node("Exp", [Node("Or", [p[1], p[3]])]) 
+            p[0] = Node("Exp", [Node("Or", [p[1], p[3]])])
         elif p[2] == 'and':
             p[0] = Node("Exp", [Node("And", [p[1], p[3]])])
         elif p[2] == 'in':
-            p[0] = Node("Exp", [Node("In", [p[1], p[3]])]) 
+            p[0] = Node("Exp", [Node("In", [p[1], p[3]])])
     elif len(p) == 3:
         if p[1] != "-":
             p[0] = Node("Exp", [Node("Not", [p[2]])])
@@ -343,9 +348,9 @@ def p_expresion(p):
             p[0] = Node("Exp", [Node("Minus", [p[2]])])
     elif len(p) == 2:
         if ((p[1].nombre == "itoi") or (p[1].nombre == "len") or (p[1].nombre == "max") or (p[1].nombre == "min")):
-            p[0] = Node("Exp" , [Node(None, [p[1]])])
+            p[0] = Node("Exp", [Node(None, [p[1]])])
         else:
-            p[0] = Node(None , [Node(None, [p[1]])])
+            p[0] = Node(None, [Node(None, [p[1]])])
 
     #print("expresion " + str(p[1].nombre))
 
@@ -357,7 +362,7 @@ def p_literal(p):
             | TkString
     """
     if type(p[1]) == str:
-        p[0] = Node(str(p[1]),None)
+        p[0] = Node(str(p[1]), None)
     else:
         p[0] = Node('Literal: '+ str(p[1]), None)
     #print("literal ")
@@ -365,10 +370,10 @@ def p_literal(p):
 
 def p_convertir(p):
     """
-    CONVERTIR : TkItoi TkOpenPar IDENTIFICADOR TkClosePar
-              | TkLen TkOpenPar IDENTIFICADOR TkClosePar
-              | TkMax TkOpenPar IDENTIFICADOR TkClosePar
-              | TkMin TkOpenPar IDENTIFICADOR TkClosePar
+    CONVERTIR : TkItoi TkOpenPar EXPRESION TkClosePar
+              | TkLen TkOpenPar EXPRESION TkClosePar
+              | TkMax TkOpenPar EXPRESION TkClosePar
+              | TkMin TkOpenPar EXPRESION TkClosePar
     """
     p[0] = Node(str(p[1]), [p[3]])
     #print("convertir " + str(p[1]))
@@ -385,7 +390,7 @@ def p_exp_cuantificador_forall(p):
     """
     EXP_CUANTIFICADOR : TkOpenPar TkForall IDENTIFICADOR TkPipe IDENTIFICADOR TkIn IDENTIFICADOR TkTwoPoints EXP_CUANTIFICADOR TkClosePar
                       | TkOpenPar TkForall IDENTIFICADOR TkPipe IDENTIFICADOR TkIn IDENTIFICADOR TkTwoPoints EXPRESION TkClosePar
-    """ 
+    """
     p[0] = Node("Forall", [p[3], p[5], p[7], p[9]])
 
     #print("forall")
@@ -407,17 +412,22 @@ def p_vacio(p):
 """
 
 def p_error(p):
-    print("Syntax error in " + str((p.lineno//2)-1) + ", column " + str(p.lexpos) + ": unexpected token '" + str(p.value) + "'")
+    print("Syntax error in " + str(p.lineno) + ", column " + \
+        str(p.lexpos) + ": unexpected token '" + str(p.value) + "'")
     exit(1)
 
+parser = yacc.yacc()
+
+def main():    
+    #abrimos la ruta pasada por argumento
+    filepath = argv[1]
+    #Abrimos el contenido del la ruta
+    file = open(filepath, 'r')
+    #Guardamos las lineas de cada
+    data = file.read()
+    result = parser.parse(data, tracking=True)
+    result.imprimir(0)
 
 
-parser = yacc.yacc('SLR')
-#abrimos la ruta pasada por argumento
-filepath = argv[1]
-#Abrimos el contenido del la ruta
-file = open(filepath, 'r')
-#Guardamos las lineas de cada
-data = file.read()
-result = parser.parse(data)
-result.imprimir(0) 
+if __name__ == '__main__':
+    main()
