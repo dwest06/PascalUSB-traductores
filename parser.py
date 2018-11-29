@@ -80,7 +80,7 @@ def p_qc(p):
     """
     INICIO : PROGRAMA
     """
-    p[0] = Node(None,[p[1]])
+    p[0] = Node(None, [p[1]])
 
 def p_programa(p):
     """
@@ -100,14 +100,14 @@ def p_seq(p):
     """
     SEQ : INSTRUCCION_SIN_SEQ
         | INSTRUCCION
-        | INSTRUCCION_SIN_SEQ SEQ 
+        | INSTRUCCION_SIN_SEQ SEQ
         | INSTRUCCION TkSemicolon SEQ
 
     """
     if len(p) == 4:
         p[0] = Node("Sequencing", [p[1], p[3]])
     elif len(p) == 3:
-        p[0] == Node(None,[p[1],p[2]])
+        p[0] == Node(None, [p[1], p[2]])
         print ("aja instruccion sin seq y suq " + str(p[2].nombre))
     else:
         p[0] = Node(None, [p[1]])
