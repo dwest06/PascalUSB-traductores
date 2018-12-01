@@ -1,9 +1,16 @@
+//program	begin if a > 1 then print "a" if b > 1 then begin print "b"; print "c" end else if c > 1 then print "d" end
+
 program
 	begin
-		declare
-			a, b, c as int;
-			d, e, f as inter
-			a := b + 3;
-			read e
-			// Esto es un comentario
+		if a > 1 then
+			print "a"
+		if b > 1 then
+			begin
+				print "b";
+				print "c"
+			end
+		else
+			if c > 1 then
+				print "d"
+
 	end
