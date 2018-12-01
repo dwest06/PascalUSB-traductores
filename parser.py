@@ -14,6 +14,13 @@ from sys import argv
 from lexer import tokens
 from ply import yacc as yacc
 
+class Tabla_sym(object):
+    """docstring for Tabla_sym"""
+    def __init__(self, arg):
+        super(Tabla_sym, self).__init__()
+        self.arg = arg
+
+
 
 # Clase nodo que permite la creacion del AST
 class Node:
@@ -21,6 +28,8 @@ class Node:
     def __init__(self, nombre=None, hijos=None):
         self.nombre = nombre
         self.espacios = 0
+        self.tipo = None
+
 
         if hijos:
             self.hijos = hijos
@@ -54,6 +63,7 @@ class Node:
                     hijo.imprimir(self.espacios)
 
 
+
 #precedencia
 
 precedence = (
@@ -68,12 +78,12 @@ precedence = (
     ('nonassoc', 'TkEqual', 'TkNEqual'),
     ('nonassoc', 'TkGreater', 'TkLess', 'TkGeq', 'TkLeq'),
     ('nonassoc', 'TkElse'),
-    ('left','TkIn'),
+    ('left', 'TkIn'),
     ('right', 'TkNot'),
     ('left', 'TkPlus', 'TkMinus'),
     ('left', 'TkMult', 'TkDiv'),
-    ('left','TkCap'),
-    ('right','TkComma'),
+    ('left', 'TkCap'),
+    ('right', 'TkComma'),
     ('left', 'TkSoForth'),
     ('right', 'UMINUS')
 )
@@ -103,7 +113,6 @@ def p_programa(p):
 def p_seq(p):
     """
     SEQ : INSTRUCCION
-        | INSTRUCCION2 SEQ
         | INSTRUCCION TkSemicolon SEQ
     """
     if len(p) == 4:
@@ -120,25 +129,17 @@ def p_instruccion(p):
     INSTRUCCION : IO
                 | ASIGNACION
                 | BLOQUE
-                | CONVERTIR
-                | INSTRUCCION2
+                | ITERACION
+                | CONDICIONAL
     """
     #print("aqui " + str(p[1].nombre))
-    p[0] = Node(None, [p[1]])
-
-def p_instruccion2(p):
-    """
-    INSTRUCCION2 : CONDICIONAL
-                 | ITERACION
-    """
-    #print("instruccion 2")
     p[0] = Node(None, [p[1]])
 
 def p_io(p):
     """
     IO : TkRead EXPRESION
-       | TkPrint EXPRESION
-       | TkPrintln EXPRESION
+       | TkPrint LISTA_EXP
+       | TkPrintln LISTA_EXP
     """
     if p[1] == "println":
         p[0] = Node("Printl", [p[2]])
@@ -277,11 +278,10 @@ def p_iteracion(p):
 
     #print("iteracion")
 
-
-
 def p_expresion(p):
     """
     EXPRESION : VARIABLES
+              | CONVERTIR
               | EXPRESION TkPlus EXPRESION
               | EXPRESION TkMinus EXPRESION
               | EXPRESION TkMod EXPRESION
@@ -301,7 +301,6 @@ def p_expresion(p):
               | TkOpenPar EXPRESION TkClosePar
               | TkNot EXPRESION
               | TkMinus VARIABLES %prec UMINUS
-              | EXPRESION TkComma EXPRESION
     """
 
     if len(p) == 4:
@@ -353,6 +352,16 @@ def p_expresion(p):
             p[0] = Node(None, [Node(None, [p[1]])])
 
     #print("expresion " + str(p[1].nombre))
+
+def p_lista_exp(p):
+    """
+    LISTA_EXP : EXPRESION
+              | EXPRESION TkComma LISTA_EXP
+    """
+    if len(p) == 2:
+        p[0] = Node("Lista_exp", [p[1]])
+    else:
+        p[0] = Node("Lista_exp", [p[1], p[3]])
 
 def p_literal(p):
     """
@@ -412,13 +421,12 @@ def p_vacio(p):
 """
 
 def p_error(p):
-    print("Syntax error in " + str(p.lineno) + ", column " + \
+    print("Syntax error in line " + str(p.lineno) + ", column " + \
         str(p.lexpos) + ": unexpected token '" + str(p.value) + "'")
     exit(1)
 
-parser = yacc.yacc()
-
 def main():    
+    parser = yacc.yacc()
     #abrimos la ruta pasada por argumento
     filepath = argv[1]
     #Abrimos el contenido del la ruta
