@@ -1,0 +1,9 @@
+program
+begin
+ declare b as bool
+
+ if b then
+   print "f"
+// else
+//   print "l"
+end

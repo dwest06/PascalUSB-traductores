@@ -26,7 +26,7 @@ a as inter
 				sum := sum + i*i;
 				i:=i+1
 			end;
-		println "La suma es ", sum;
+		println "La suma es ", sum
 	end
 
 end

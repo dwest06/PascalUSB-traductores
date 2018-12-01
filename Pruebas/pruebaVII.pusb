@@ -16,9 +16,9 @@ i, j, True, False as int
 	  while j<5 do
 	   begin
 		b := i < 5;
-		j++
+		j:=j+1
 	   end;
-	  i++
+	  i:=i+1
 	end;
 		
 	i := 0;
@@ -37,9 +37,9 @@ i, j, True, False as int
 		begin
 			False:=False+1
 		end;
-		j++
+		j:=j+1
 	  end;
-		i++
+		i:=i+1
 	end
 
 end

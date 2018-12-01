@@ -39,7 +39,7 @@ n, sum, True, False as int
 			if b := true then
 				True:=True+1
 			else
-				False:=False+1
+				False:=False+1;
 			n:=n-1
 		end;
 	println "La suma de los enteros es ", sum;

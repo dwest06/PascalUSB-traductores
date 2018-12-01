@@ -1,9 +1,9 @@
 program
 begin
 
-declare a,b as int, bool
+declare a,b as int, bool;
 
-        declare i, j, sum, True, False as int;
+        i, j, sum, True, False as int;
         rec as inter
 
 	i := 0;
@@ -30,10 +30,10 @@ declare a,b as int, bool
 	  while j<5 do
 		begin
 			sum := sum + max(rec);
-			if min(rec) == 3)
+			if min(rec) == 3 then
 				True:=True+1
 			else
-				False:=False+1
+				False:=False+1;
 			j:=j+1
 		end;
 	  i:=i-1

@@ -1,0 +1,8 @@
+program
+begin
+ declare a as int
+ print "g", "hh", a;
+ println "k";
+ println "h", "k";
+ print a
+end

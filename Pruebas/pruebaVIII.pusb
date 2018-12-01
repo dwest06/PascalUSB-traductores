@@ -1,7 +1,7 @@
 program
 begin
 
-declare b as Bool;
+declare b as bool;
 i, j, True, False as int
 
 	i := 0;

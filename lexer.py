@@ -12,6 +12,7 @@
 """
 
 from sys import argv
+import sys
 from ply import lex
 
 #Palabras reservadas del lenguaje
@@ -231,6 +232,3 @@ while data:
 
     #leemos otra linea
     data = file.readline()
-
-# for i in tokens:
-#     print(i)
