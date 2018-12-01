@@ -13,14 +13,7 @@
 from sys import argv
 from lexer import tokens
 from ply import yacc as yacc
-
-class Tabla_sym(object):
-    """docstring for Tabla_sym"""
-    def __init__(self, arg):
-        super(Tabla_sym, self).__init__()
-        self.arg = arg
-
-
+from tabla_sym import Tabla_sym
 
 # Clase nodo que permite la creacion del AST
 class Node:
@@ -29,7 +22,6 @@ class Node:
         self.nombre = nombre
         self.espacios = 0
         self.tipo = None
-
 
         if hijos:
             self.hijos = hijos
