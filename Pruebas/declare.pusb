@@ -1,0 +1,7 @@
+program
+begin
+declare a, i, v as int;
+        e, b, h as int, inter, bool;
+        g as inter
+print "a"
+end

@@ -1,0 +1,11 @@
+program
+begin
+  declare a, b, i as int;
+          x, y as inter
+
+  case b of
+   x ==> println b
+   y ==> println a
+   a..b ==> println a, b
+  end
+end

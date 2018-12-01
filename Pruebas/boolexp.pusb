@@ -1,0 +1,7 @@
+program
+
+begin
+  declare a, b as bool
+
+  a := a or (b and true) or not false
+end

@@ -1,0 +1,42 @@
+program
+begin
+
+declare a,b as int, bool;
+
+        i, j, sum, True, False as int;
+        rec as inter
+
+	i := 0;
+	j := 0;
+	sum := 0;
+	True := 0;
+	False := 0;
+
+	while i<10 do begin
+		j:=4;
+	  while j>=0 do
+		begin
+			rec := i..j;
+			j:=j-1
+		end;
+		i:=i+1
+	end;
+
+	i:=i-1;
+	j:=j+1;
+
+	while i>=0 do begin
+		j:=0;
+	  while j<5 do
+		begin
+			sum := sum + max(rec);
+			if min(rec) == 3 then
+				True:=True+1
+			else
+				False:=False+1;
+			j:=j+1
+		end;
+	  i:=i-1
+	end
+
+end

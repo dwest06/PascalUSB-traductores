@@ -1,0 +1,6 @@
+program
+begin
+ declare a, i as inter, int
+
+ i := min(2..(4+8)) < max(a) and true
+end

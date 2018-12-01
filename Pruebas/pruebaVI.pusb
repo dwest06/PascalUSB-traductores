@@ -1,0 +1,36 @@
+program 
+begin
+
+	declare a as int;
+	i,j as int;
+	sum as int
+
+	// Inicializacion
+	i := 0;
+	j := 0;
+	sum := 0;
+
+	while i<10 do
+         begin
+		j:=4;
+	  while j>=0 do
+	  begin
+		a := j-i;
+		j:=j-1
+	  end;
+		i:=i+1
+	end;
+	i:=i-1;
+	j:=j+1;
+	// Sumatoria de los Elementos
+	while i>=0 do begin
+		j:=0;
+	  while j<5 do
+	  begin
+		sum := sum + a;
+		j:=j+1
+	  end;
+	  i:=i-1
+	end
+
+end

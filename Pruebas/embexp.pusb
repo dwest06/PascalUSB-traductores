@@ -1,0 +1,6 @@
+program
+begin
+ declare a, i as inter, int
+
+ i := max(2..8)
+end

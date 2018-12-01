@@ -1,0 +1,44 @@
+program
+begin
+
+declare b as bool;
+i, j, True, False as int
+
+	i := 0;
+	j := 0;
+	True := 0;
+	False := 0;
+	// Inicializacion del Arreglo
+	while i<10 do 
+	begin
+	  j:=0;
+	  while j<5 do
+	  begin
+		b := i < 5;
+		j:=j+1
+	  end;
+		i:=i+1
+	end;
+		
+	i := 0;
+	j := 0;
+	// Sumatoria de los TRUE y FALSE del Arreglo
+	while i<10 do
+        begin
+	  j:=0;
+	  while j<5 do
+	  begin
+		if b == true then
+		begin
+			True:=True+1
+		end
+		else
+		begin
+			False:=False+1
+		end;
+		j:=j+1
+	  end;
+		i:=i+1
+  end
+
+end

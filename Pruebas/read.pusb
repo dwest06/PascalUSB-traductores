@@ -1,0 +1,6 @@
+program
+begin
+ declare a as int
+
+ read a
+end

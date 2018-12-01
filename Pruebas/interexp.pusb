@@ -1,0 +1,7 @@
+program
+begin
+  declare a, i as int;
+          b as inter
+  
+  b := a..i
+end

@@ -1,0 +1,7 @@
+program
+begin
+declare a, b as int;
+        c as bool
+
+  c:= a+4 /= b-9
+end
