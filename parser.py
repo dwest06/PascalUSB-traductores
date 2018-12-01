@@ -13,7 +13,7 @@
 from sys import argv
 from lexer import tokens
 from ply import yacc as yacc
-from tabla_sym import Tabla_sym
+from module.tabla_sym import Tabla_sym
 
 # Clase nodo que permite la creacion del AST
 class Node:
