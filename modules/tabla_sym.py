@@ -34,42 +34,41 @@ class Tabla_sym:
         self.table = Stack()
 
     def insertar_scope(self):
+        """ Insertamos en la pila un nuevo hash """
         if self.table.isEmpty():
-            self.table.push({'a': [4,'int']})
-            print("push dic vacio")
+            self.table.push({})
         else:
             #copiamos la tabla anteriro
             aux = self.table.top().copy()
             self.table.push(aux)
-            print("push dic")
 
     def eliminar_scope(self):
+        """ Eliminamos un hash de la pila si la pila contiene elementos """
         if not self.table.isEmpty():
             self.table.pop()
         else:
             raise Exception("Pila vacia: No se ha podido elminar el scope")
 
     def insertar(self, name, value, type_):
+        """ Insertamos en el hash del nivel actual un nuevo elemento """
         if not self.table.isEmpty():
             aux = self.table.top()
-            print("aux: ", aux)
             aux[name] = [value, type_]
-            print("jejej")
             return True
-        else:
-            raise Exception("pila vacia: No se ha podido insertar, por favor inserte un scope")
+        raise Exception("pila vacia: No se ha podido insertar, por favor inserte un scope")
 
     def consultar(self, name):
+        """ Consultamos en el hash del nivel actual sobre un elemento """
         if not self.table.isEmpty():
             aux = self.table.top()
             return aux[name]
-        else:
-            raise Exception("pila vacia: No se ha podido insertar, por favor inserte un scope")
+
+        raise Exception("pila vacia: No se ha podido insertar, por favor inserte un scope")
 
     def __str__(self):
+        """ Metodo para imprimir bonitico el nivel actual de estado de las variables """
         if not self.table.isEmpty():
             aux = self.table.top()
             aux1 = str(aux)
             return aux1
-        else:
-            return {}
+        return {}
