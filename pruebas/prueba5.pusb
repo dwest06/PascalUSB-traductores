@@ -2,7 +2,7 @@ program
 	begin
 		declare
 			x, y as int;
-			b as int
+			b as bool
 		x := 40 + 10;
 		y := x * 5;
 		print "a";
