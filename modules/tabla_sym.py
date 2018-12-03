@@ -97,4 +97,4 @@ class Tabla_sym:
             aux = self.table.top()
             aux1 = str(aux)
             return aux1
-        return {}
+        return ''
