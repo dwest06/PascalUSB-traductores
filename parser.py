@@ -84,12 +84,58 @@ class Node:
             Metodo para guardar en la tabla de symbolos las variables
             en su recpectivo scope
         """
-        if self.nombre == 'declare':
+        #Cuando haya un declare, las vriables las guardamos en la
+        #tabla de simbolos
+        if self.nombre == 'Declare':
+            #insertamos nuevo scope
+            TABLA.insertar_scope()
+
+            self.insertar_en_tabla()
+
+            print(TABLA)
+
+        #Esto es para que no siga haciendo vainas raras en los demas declare
+        #del mismo scope
+        else:
+            for i in self.hijos:
+                #print(i.nombre)
+                i.set_simbolos()
+
+    def insertar_en_tabla(self):
+        variables = self.hijos[0]
+        tipos = self.hijos[1]
+        if tipos.primero() is None:
+            tipo = tipos.nombre
+            while variables is not None:
+                nombre = variables.nombre
+                TABLA.insertar(nombre, None, tipo)
+                variables = variables.primero()
+        else:
+            while variables is not None:
+                nombre = variables.nombre
+                tipo = tipos.nombre
+                TABLA.insertar(nombre, None, tipo)
+                tipos = tipos.primero()
+                variables = variables.primero()
+        try:
+            if self.hijos[2] is not None:
+                self.hijos[2].insertar_en_tabla()
+        except:
             pass
 
-        #for i in self.hijos:
-        #    i.set_simbolos()
+    def validar_semantica(self):
+        """ Metodo para validar la semantica del lenguaje """
 
+        #primero llenamos la tabla de simbolos
+        self.set_simbolos()
+
+        #Luego validamos las expresiones
+        """
+            #Con esto se puede verificar si la expresion de a asignacion corres
+            ponde con el tipo de la variable de asignacion
+            elif self.nombre == "Asig":
+            variable = self.hijos[0]
+        """
 
 
     def imp(self, espacios):
@@ -195,13 +241,12 @@ def p_asignacion(p):
     ASIGNACION : IDENTIFICADOR TkAsig EXPRESION
     """
     p[0] = Node("Asig", [p[1], p[3]])
-    #print("asignacion")
 
 def p_identficador(p):
     """
     IDENTIFICADOR : TkId
     """
-    p[0] = Node("Ident: " + str(p[1]), None, tipo="Sin declarar")
+    p[0] = Node(str(p[1]), None, tipo="var")
 
 def p_bloque(p):
     """
@@ -237,9 +282,9 @@ def p_lista_var(p):
               | TkId
     """
     if len(p) == 4:
-        p[0] = Node(str(p[1]), [p[3]], tipo='sin declarar')
+        p[0] = Node(str(p[1]), [p[3]], tipo='var')
     else:
-        p[0] = Node(str(p[1]), None, tipo='sin declarar')
+        p[0] = Node(str(p[1]), None, tipo='var')
 
 def p_tipos(p):
     """
