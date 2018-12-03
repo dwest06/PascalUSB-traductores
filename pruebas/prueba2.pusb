@@ -1,6 +1,19 @@
 program
-    begin
-        if a then
-            print ("H")
+    begin	// Se crea un nuevo scope
+    	declare 
+    		a,c,d as int,bool,int;
+    		b as int
+    	a := 15 + 45;
+    	c := true or false;
+    	begin 	// Se crea un nuevo scope
+    		declare 
+    			f as int
+    		print a
+    	end;	// Se elimina el scope
+
+    	begin	// Se crea un nuevo scope
+    		declare
+    			f as int
+    		print(f)
+    	end		// Se elimina el scope
     end
-program

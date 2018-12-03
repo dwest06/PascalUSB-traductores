@@ -1,0 +1,20 @@
+program 
+	begin
+		declare
+			x, y as int;
+			b as int
+		x := 40 + 10;
+		y := x * 5;
+		print "a";
+
+		if y > 200 then
+			print "Mayor a 200";
+
+		while y > 50 do
+			begin
+				y := y - 50;
+				print (y)
+			end
+
+
+	end
