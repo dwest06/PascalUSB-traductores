@@ -13,16 +13,24 @@
 from sys import argv
 from lexer import tokens
 from ply import yacc as yacc
-from module.tabla_sym import Tabla_sym
+from modules.tabla_sym import Tabla_sym
+from modules.stack import Stack
 
+#Tabla de symbolos
+TABLA = Tabla_sym()
 
 # Clase nodo que permite la creacion del AST
 class Node:
     """ Clase Nodo: Para crear un Arbol el cual facilita la impresion del AST"""
-    def __init__(self, nombre=None, hijos=None):
+    def __init__(self, nombre=None, hijos=None, tipo=None, scope=False):
         self.nombre = nombre
         self.espacios = 0
-        self.tipo = None
+        #Para saber el tipo del nodo
+        self.tipo = tipo
+        #para saber el valor del nodo
+        self.valor = None
+        #Para saber si se crea nuevo scope
+        self.scope = scope
 
         if hijos:
             self.hijos = hijos
@@ -30,6 +38,7 @@ class Node:
             self.hijos = []
 
     def imprimir(self, espacios, end=False):
+        """ Este metodo es para imprimir el AST """
         if self.nombre is not None:
             if not end:
                 print(" "*espacios +self.nombre)
@@ -54,6 +63,47 @@ class Node:
             else:
                 if hijo is not None:
                     hijo.imprimir(self.espacios)
+
+# ***************************************
+    def set_tipo(self, tipo):
+        """ Este metodo es para asignarle a una variable su tipo """
+        self.tipo = tipo
+
+    def set_valor(self, valor):
+        """ Metodo para asignarle a una variable su valor """
+        self.valor = valor
+
+    def primero(self):
+        """ Metodo para regresar el primer hijo de un nodo """
+        if self.hijos == []:
+            return None
+        return self.hijos[0]
+
+    def set_simbolos(self):
+        """
+            Metodo para guardar en la tabla de symbolos las variables
+            en su recpectivo scope
+        """
+        if self.nombre == 'declare':
+            pass
+
+        #for i in self.hijos:
+        #    i.set_simbolos()
+
+
+
+    def imp(self, espacios):
+        """ Otro metodo util para imprimir el arbol con mas informacion"""
+        if self.nombre is not None:
+            if self.tipo is not None:
+                print(' '*espacios + self.nombre + ' ' + self.tipo)
+            else:
+                print(' '*espacios + self.nombre)
+
+        for i in self.hijos:
+            if i is not None:
+                i.imp(espacios + 1)
+
 
 
 #precedencia
@@ -109,12 +159,9 @@ def p_seq(p):
     """
     if len(p) == 4:
         p[0] = Node("Sequencing", [p[1], p[3]])
-    elif len(p) == 3:
-        p[0] = Node("Sequencing", [p[1], p[2]])
-        #print("aja instruccion sin seq y suq " + str(p[2].nombre))
     else:
+
         p[0] = Node("Sequencing", [p[1]])
-    #print("SEQ")
 
 def p_instruccion(p):
     """
@@ -154,7 +201,7 @@ def p_identficador(p):
     """
     IDENTIFICADOR : TkId
     """
-    p[0] = Node("Ident: " + str(p[1]), None)
+    p[0] = Node("Ident: " + str(p[1]), None, tipo="Sin declarar")
 
 def p_bloque(p):
     """
@@ -171,7 +218,6 @@ def p_bloque(p):
         p[0] = Node("Block", [p[2]])
     else:
         p[0] = Node("Block")
-    #print("bloque")
 
 def p_declaracion_var(p):
     """
@@ -183,15 +229,17 @@ def p_declaracion_var(p):
     else:
         p[0] = Node("Declare", [p[1], p[3]])
 
+    #Hacer dfs para asignarle a la tabla de simbolos las variables con su tipo
+
 def p_lista_var(p):
     """
     LISTA_VAR : TkId TkComma LISTA_VAR
               | TkId
     """
     if len(p) == 4:
-        p[0] = Node(str(p[1]) + ', ' + str(p[3].nombre), None)
+        p[0] = Node(str(p[1]), [p[3]], tipo='sin declarar')
     else:
-        p[0] = Node(str(p[1]), None)
+        p[0] = Node(str(p[1]), None, tipo='sin declarar')
 
 def p_tipos(p):
     """
@@ -199,11 +247,9 @@ def p_tipos(p):
           | TIPO
     """
     if len(p) == 4:
-        p[0] = Node(str(p[1].nombre) + ', ' + str(p[3].nombre), None)
+        p[0] = Node(str(p[1].nombre), [p[3]], tipo='tipos')
     else:
-        p[0] = Node(str(p[1].nombre), None)
-
-    #print("tipos")
+        p[0] = Node(str(p[1].nombre), None, tipo='tipo')
 
 def p_tipo(p):
     """
@@ -213,20 +259,6 @@ def p_tipo(p):
     """
     p[0] = Node(str(p[1]), None)
     #print("tipo")
-
-def p_variables(p):
-    """
-    VARIABLES : LITERAL
-              | IDENTIFICADOR
-              | LITERAL TkComma VARIABLES
-              | IDENTIFICADOR TkComma VARIABLES
-    """
-    if len(p) == 2:
-        p[0] = Node(None, [p[1]])
-    else:
-        p[0] = Node(None, [p[1], p[3]])
-
-    #print("variables")
 
 def p_condicional(p):
     """
@@ -298,50 +330,76 @@ def p_expresion(p):
     if len(p) == 4:
         if p[1] == '(':
             p[0] = Node("Exp", [p[2]])
-        elif p[2] == '+':
-            p[0] = Node("Exp", [Node("Plus", [p[1], p[3]])])
-        elif p[2] == '-':
-            p[0] = Node("Exp", [Node("Minus", [p[1], p[3]])])
-        elif p[2] == '*':
-            p[0] = Node("Exp", [Node("Mult", [p[1], p[3]])])
-        elif p[2] == '/':
-            p[0] = Node("Exp", [Node("Div", [p[1], p[3]])])
-        elif p[2] == '%':
-            p[0] = Node("Exp", [Node("Mod", [p[1], p[3]])])
-        if p[2] == '<':
-            p[0] = Node("Exp", [Node("Less", [p[1], p[3]])])
-        elif p[2] == '>':
-            p[0] = Node("Exp", [Node("Greater", [p[1], p[3]])])
-        elif p[2] == '<=':
-            p[0] = Node("Exp", [Node("LessEq", [p[1], p[3]])])
-        elif p[2] == '>=':
-            p[0] = Node("Exp", [Node("GreaterEq", [p[1], p[3]])])
-        elif p[2] == '==':
-            p[0] = Node("Exp", [Node("Equal", [p[1], p[3]])])
-        elif p[2] == '/=':
-            p[0] = Node("Exp", [Node("Not Equal", [p[1], p[3]])])
-        elif p[2] == '..':
-            p[0] = Node("Exp", [Node("So Forth", [p[1], p[3]])])
-        elif p[2] == '<>':
-            p[0] = Node("Exp", [Node("Cap", [p[1], p[3]])])
-        elif p[2] == ',':
-            p[0] = Node(None, [p[1], p[3]])
-        elif p[2] == 'or':
-            p[0] = Node("Exp", [Node("Or", [p[1], p[3]])])
-        elif p[2] == 'and':
-            p[0] = Node("Exp", [Node("And", [p[1], p[3]])])
-        elif p[2] == 'in':
-            p[0] = Node("Exp", [Node("In", [p[1], p[3]])])
+            #especial por que cambia la posicion de la exp
+            p[0].set_tipo(p[2].tipo)
+        else:
+            if p[2] == '+':
+                p[0] = Node("Exp", [Node("Plus", [p[1], p[3]])])
+                p[0].set_tipo(p[1].tipo)
+            elif p[2] == '-':
+                p[0] = Node("Exp", [Node("Minus", [p[1], p[3]])])
+                p[0].set_tipo('int')
+            elif p[2] == '*':
+                p[0] = Node("Exp", [Node("Mult", [p[1], p[3]])])
+                p[0].set_tipo(p[1].tipo)
+            elif p[2] == '/':
+                p[0] = Node("Exp", [Node("Div", [p[1], p[3]])])
+                p[0].set_tipo('int')
+            elif p[2] == '%':
+                p[0] = Node("Exp", [Node("Mod", [p[1], p[3]])])
+                p[0].set_tipo('int')
+            if p[2] == '<':
+                p[0] = Node("Exp", [Node("Less", [p[1], p[3]])])
+                p[0].set_tipo('bool')
+            elif p[2] == '>':
+                p[0] = Node("Exp", [Node("Greater", [p[1], p[3]])])
+                p[0].set_tipo('bool')
+            elif p[2] == '<=':
+                p[0] = Node("Exp", [Node("LessEq", [p[1], p[3]])])
+                p[0].set_tipo('bool')
+            elif p[2] == '>=':
+                p[0] = Node("Exp", [Node("GreaterEq", [p[1], p[3]])])
+                p[0].set_tipo('bool')
+            elif p[2] == '==':
+                p[0] = Node("Exp", [Node("Equal", [p[1], p[3]])])
+                p[0].set_tipo('bool')
+            elif p[2] == '/=':
+                p[0] = Node("Exp", [Node("Not Equal", [p[1], p[3]])])
+                p[0].set_tipo('bool')
+            elif p[2] == '..':
+                p[0] = Node("Exp", [Node("So Forth", [p[1], p[3]])])
+                p[0].set_tipo('inter')
+            elif p[2] == '<>':
+                p[0] = Node("Exp", [Node("Cap", [p[1], p[3]])])
+                p[0].set_tipo('inter')
+            elif p[2] == 'or':
+                p[0] = Node("Exp", [Node("Or", [p[1], p[3]])])
+                p[0].set_tipo('bool')
+            elif p[2] == 'and':
+                p[0] = Node("Exp", [Node("And", [p[1], p[3]])])
+                p[0].set_tipo('bool')
+            elif p[2] == 'in':
+                p[0] = Node("Exp", [Node("In", [p[1], p[3]])])
+                p[0].set_tipo('bool')
+
+
     elif len(p) == 3:
         if p[1] != "-":
             p[0] = Node("Exp", [Node("Not", [p[2]])])
+            p[0].set_tipo('bool')
         elif p[1] == "-":
             p[0] = Node("Exp", [Node("Minus", [p[2]])])
+            p[0].set_tipo('int')
     elif len(p) == 2:
-        if ((p[1].nombre == "itoi") or (p[1].nombre == "len") or (p[1].nombre == "max") or (p[1].nombre == "min")):
+        #CONVERTIR
+        if ((p[1].nombre == "itoi") or (p[1].nombre == "len") or
+                (p[1].nombre == "max") or (p[1].nombre == "min")):
             p[0] = Node("Exp", [Node(None, [p[1]])])
+            p[0].set_tipo(p[1].tipo)
+        #VARIABLES
         else:
-            p[0] = Node(None, [Node(None, [p[1]])])
+            p[0] = Node("Exp", [Node(None, [p[1]])])
+            p[0].set_tipo(p[1].tipo)
 
     #print("expresion " + str(p[1].nombre))
 
@@ -355,6 +413,20 @@ def p_lista_exp(p):
     else:
         p[0] = Node("Lista_exp", [p[1], p[3]])
 
+def p_variables(p):
+    """
+    VARIABLES : LITERAL
+              | IDENTIFICADOR
+    """
+    if p[1].tipo == 'bool' or p[1].tipo == 'int' or p[1].tipo == 'string':
+        p[0] = Node("Variable", [p[1]])
+        p[0].set_tipo(p[1].tipo)
+    else:
+        p[0] = Node("Variable", [p[1]])
+        #Busca en la tabla de simbolos
+
+    #print("variables")
+
 def p_literal(p):
     """
     LITERAL : TkNum
@@ -362,12 +434,12 @@ def p_literal(p):
             | TkFalse
             | TkString
     """
-    if type(p[1]) == str:
-        p[0] = Node(str(p[1]), None)
+    if (p[1] == 'true' or p[1] == 'false'):
+        p[0] = Node(str(p[1]), None, tipo='bool')
+    elif isinstance(p[1], int):
+        p[0] = Node(str(p[1]), None, tipo='int')
     else:
-        p[0] = Node('Literal: '+ str(p[1]), None)
-    #print("literal ")
-
+        p[0] = Node(str(p[1]), None, tipo='string')
 
 def p_convertir(p):
     """
@@ -404,13 +476,6 @@ def p_exp_cuantificador_exist(p):
     p[0] = Node("Exist", [p[3], p[5], p[7], p[9]])
 
     #print("exists")
-"""
-def p_vacio(p):
-    '''
-    VACIO :
-    '''
-    pass
-"""
 
 def p_error(p):
     print("Syntax error in line " + str(p.lineno) + ", column " + \
@@ -425,8 +490,11 @@ def main():
     file = open(filepath, 'r')
     #Guardamos las lineas de cada
     data = file.read()
-    result = parser.parse(data, tracking=True)
-    result.imprimir(0)
+    result = parser.parse(data)
+    result.set_simbolos()
+    result.imp(0)
+    #result.imprimir(0)
+    print(TABLA)
 
 if __name__ == '__main__':
     main()
