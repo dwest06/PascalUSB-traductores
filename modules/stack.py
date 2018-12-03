@@ -23,7 +23,7 @@ class Stack(object):
 
     def __str__(self):
         lista = ''
-        for i in range(len(self.items)):
+        for i in range(len(self.items) - 1, -1, -1):
             lista += '[' + str(self.items[i]) + '],' + '\n'
         return lista
         
