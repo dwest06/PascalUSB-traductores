@@ -22,15 +22,11 @@ TABLA = Tabla_sym()
 # Clase nodo que permite la creacion del AST
 class Node:
     """ Clase Nodo: Para crear un Arbol el cual facilita la impresion del AST"""
-    def __init__(self, nombre=None, hijos=None, tipo=None, scope=False):
+    def __init__(self, nombre=None, hijos=None, tipo=None):
         self.nombre = nombre
         self.espacios = 0
-        #Para saber el tipo del nodo
+
         self.tipo = tipo
-        #para saber el valor del nodo
-        self.valor = None
-        #Para saber si se crea nuevo scope
-        self.scope = scope
 
         if hijos:
             self.hijos = hijos
@@ -41,9 +37,9 @@ class Node:
         """ Este metodo es para imprimir el AST """
         if self.nombre is not None:
             if not end:
-                print(" "*espacios +self.nombre)
+                print(" "*espacios + self.nombre)
             else:
-                print(" "*espacios +self.nombre, end='')
+                print(" "*espacios + self.nombre, end='')
             self.espacios = espacios + 1
         else:
             self.espacios = espacios
@@ -64,16 +60,11 @@ class Node:
                 if hijo is not None:
                     hijo.imprimir(self.espacios)
 
-# ***************************************
     def set_tipo(self, tipo):
-        """ Este metodo es para asignarle a una variable su tipo """
+        """ Metodo para guardar el tipo de dato de un nodo """
         self.tipo = tipo
 
-    def set_valor(self, valor):
-        """ Metodo para asignarle a una variable su valor """
-        self.valor = valor
-
-    def primero(self):
+    def head(self):
         """ Metodo para regresar el primer hijo de un nodo """
         if self.hijos == []:
             return None
@@ -84,52 +75,80 @@ class Node:
             Metodo para guardar en la tabla de symbolos las variables
             en su recpectivo scope
         """
-        #Cuando haya un declare, las vriables las guardamos en la
-        #tabla de simbolos
-        if self.nombre == 'Declare':
-            #insertamos nuevo scope
-            TABLA.insertar_scope()
-
-            self.insertar_en_tabla()
-
-            print(TABLA)
-
-        #Esto es para que no siga haciendo vainas raras en los demas declare
-        #del mismo scope
-        else:
-            for i in self.hijos:
-                #print(i.nombre)
-                i.set_simbolos()
-
-    def insertar_en_tabla(self):
+        # Por comodidad, guardamos el apuntador de cada hijo (Nombre de las variables y los tipos)
         variables = self.hijos[0]
         tipos = self.hijos[1]
-        if tipos.primero() is None:
+        # Verificamos la cantidad de tipos, si es 1, entonces todas las variables seran de ese tipo
+        # de lo contrario, deben tener la misma cantidad los tipos que las variables.
+        if tipos.head() is None:
             tipo = tipos.nombre
             while variables is not None:
+                # Guardamos en el nodo el tipo de dato
+                variables.set_tipo(tipo)
                 nombre = variables.nombre
-                TABLA.insertar(nombre, None, tipo)
-                variables = variables.primero()
+                # Insertamos en la tabla la variable junto a su tipo
+                TABLA.insertar(nombre, tipo)
+                variables = variables.head()
         else:
             while variables is not None:
                 nombre = variables.nombre
                 tipo = tipos.nombre
-                TABLA.insertar(nombre, None, tipo)
-                tipos = tipos.primero()
-                variables = variables.primero()
+                # Guardamos en el nodo el tipo de dato
+                variables.set_tipo(tipo)
+                # Insertamos en la tabla la variable junto a su tipo
+                TABLA.insertar(nombre, tipo)
+                # Buscamos los siguientes
+                tipos = tipos.head()
+                variables = variables.head()
+
+                # Verificamos si hay la misma cantidad de variables que tipos
+                if tipos is None and not variables is None:
+                    #raise Exception("Error semantico: cantidad de tipos de datos insuficientes.")
+                    print("Error semantico: cantidad de tipos de datos insuficientes.")
+                    exit(1)
         try:
             if self.hijos[2] is not None:
-                self.hijos[2].insertar_en_tabla()
-        except:
+                self.hijos[2].set_simbolos()
+        except Exception:
             pass
+        
 
     def validar_semantica(self):
         """ Metodo para validar la semantica del lenguaje """
 
-        #primero llenamos la tabla de simbolos
-        self.set_simbolos()
+        # Verificamos si entra en un nuevo scope, en ese caso se llena la tabla de 
+        # simbolos junto con el tipo de la variable
+        if self.nombre == 'Block' and self.head():
+            # Insertamos nuevo scope
+            TABLA.insertar_scope()
+            # Llenamos la tabla
+            self.hijos[0].set_simbolos()
+            #Continuar con el DFS
+            try:
+                self.hijos[1].validar_semantica()
+            except Exception:
+                pass
 
-        #Luego validamos las expresiones
+            TABLA.eliminar_scope()
+            print('scope eliminado')
+
+        elif self.nombre == 'Asig':
+            # Verificamos si el tipo de la variable es igual al tipo que devuelve la expresion
+            tipo_var = TABLA.consultar(self.hijos[0].nombre)
+            self.hijos[0].set_tipo(tipo_var)
+            tipo_exp = self.hijos[1].tipo
+            if tipo_var != tipo_exp:
+                print("Error semantico en linea " + " Columna " +
+                      "\nError al asignar expresion de tipo " +
+                      tipo_exp + " a variable de tipo " + tipo_var)
+                exit(1)
+
+        else:
+            for i in self.hijos:
+                #print(i.nombre)
+                i.validar_semantica()
+
+            #Luego validamos las expresiones
         """
             #Con esto se puede verificar si la expresion de a asignacion corres
             ponde con el tipo de la variable de asignacion
@@ -140,15 +159,29 @@ class Node:
 
     def imp(self, espacios):
         """ Otro metodo util para imprimir el arbol con mas informacion"""
-        if self.nombre is not None:
-            if self.tipo is not None:
-                print(' '*espacios + self.nombre + ' ' + self.tipo)
-            else:
-                print(' '*espacios + self.nombre)
+        if self.nombre == 'Declare':
+            print('  '*espacios + self.nombre)
+            self.hijos[0].imp_aux(espacios + 1)
+        else:
+            if self.nombre is not None and self.tipo != 'tipo':
+
+                if self.tipo is not None:
+                    print('  '*espacios + self.nombre + ' ' + self.tipo)
+                else:
+                    print('  '*espacios + self.nombre)
+
+            for i in self.hijos:
+                if i is not None:
+                    i.imp(espacios + 1)
+
+    def imp_aux(self, espacios):
+
+        print('  '*espacios + self.nombre + ' ' + self.tipo)
 
         for i in self.hijos:
             if i is not None:
-                i.imp(espacios + 1)
+                i.imp_aux(espacios)
+
 
 
 
@@ -292,7 +325,7 @@ def p_tipos(p):
           | TIPO
     """
     if len(p) == 4:
-        p[0] = Node(str(p[1].nombre), [p[3]], tipo='tipos')
+        p[0] = Node(str(p[1].nombre), [p[3]], tipo='tipo')
     else:
         p[0] = Node(str(p[1].nombre), None, tipo='tipo')
 
@@ -536,7 +569,7 @@ def main():
     #Guardamos las lineas de cada
     data = file.read()
     result = parser.parse(data)
-    result.set_simbolos()
+    result.validar_semantica()
     result.imp(0)
     #result.imprimir(0)
     print(TABLA)
