@@ -48,11 +48,14 @@ class Tabla_sym:
         else:
             raise Exception("Pila vacia: No se ha podido elminar el scope")
 
-    def insertar(self, name, value, type_):
+    def insertar(self, name, value):
         """ Insertamos en el hash del nivel actual un nuevo elemento """
         if not self.table.isEmpty():
             aux = self.table.top()
-            aux[name] = [value, type_]
+            if not name in aux:
+                aux[name] = value
+            else:
+                print("variable ya declarada")
             return True
         raise Exception("pila vacia: No se ha podido insertar, por favor inserte un scope")
 
@@ -74,27 +77,21 @@ class Tabla_sym:
         except:
             return None
 
-    def modificar_valor(self, name, valor):
+    def modificar(self, name, valor):
         """ Metodo para asignacion de un nuevo valor a una variable """
         if not self.table.isEmpty():
-            for i in range(self.table.size() + 1, -1, -1):
+            for i in range(self.table.size() - 1, -1, -1):
                 aux = self.table.get_level(i)
                 result = self.esta(aux, name)
-                if  result is not None:
-                    aux[name][0] = valor
+                if result is not None:
+                    aux[name] = valor
 
-    def modificar_tipo(self, name, tipo):
-        """ Metodo para asignacion de un nuevo tipo a una variable """
-        if not self.table.isEmpty():
-            for i in range(self.table.size() + 1, -1, -1):
-                aux = self.table.get_level(i)
-                result = self.esta(aux, name)
-                if  result is not None:
-                    aux[name][1] = tipo
     def __str__(self):
         """ Metodo para imprimir bonitico el nivel actual de estado de las variables """
         if not self.table.isEmpty():
-            aux = self.table.top()
-            aux1 = str(aux)
+            aux1 = ''
+            for i in range(self.table.size() - 1, -1, -1):
+                aux = self.table.get_level(i)
+                aux1 += str(i) + ') ' + str(aux) + '\n'
             return aux1
         return ''
