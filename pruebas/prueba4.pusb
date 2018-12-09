@@ -1,1 +1,13 @@
-true false { } -89 89 --123
+program 
+	begin 
+		declare 
+			a, b, c as int, int, bool
+		begin
+			declare
+				a,x as bool
+			a := true
+		end;
+		
+		a:=10
+
+	end
