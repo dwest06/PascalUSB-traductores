@@ -25,7 +25,6 @@ class Node:
     def __init__(self, nombre=None, hijos=None, tipo=None):
         self.nombre = nombre
         self.espacios = 0
-
         self.tipo = tipo
 
         if hijos:
@@ -87,7 +86,12 @@ class Node:
                 variables.set_tipo(tipo)
                 nombre = variables.nombre
                 # Insertamos en la tabla la variable junto a su tipo
-                TABLA.insertar(nombre, tipo)
+                # Verificamos si la tabla devuelve true si se inserto correctamente
+                # O false si ya la variable ha sido declarada
+                if not TABLA.insertar(nombre, tipo):
+                    print("Error Semantico: Variable '" + nombre + "' ya esta declarada con tipo '" +
+                          tipo + "'.")
+                    exit(1)
                 variables = variables.head()
         else:
             while variables is not None:
@@ -96,7 +100,12 @@ class Node:
                 # Guardamos en el nodo el tipo de dato
                 variables.set_tipo(tipo)
                 # Insertamos en la tabla la variable junto a su tipo
-                TABLA.insertar(nombre, tipo)
+                # Verificamos si la tabla devuelve true si se inserto correctamente
+                # O false si ya la variable ha sido declarada
+                if not TABLA.insertar(nombre, tipo):
+                    print("Error Semantico: Variable '" + nombre + "' ya esta declarada con tipo '" +
+                          tipo + "'.")
+                    exit(1)
                 # Buscamos los siguientes
                 tipos = tipos.head()
                 variables = variables.head()
@@ -111,13 +120,43 @@ class Node:
                 self.hijos[2].set_simbolos()
         except Exception:
             pass
-        
+
+    def validar_exp(self):
+        """ Metodo para validar la expresion"""
+        # Revisamos si el tipo no es nulo entonces es un atomo
+        # Devolvemos de una el tipo de atomo
+        if self.tipo is not None:
+            #print(self.nombre)
+            if self.tipo == 'var':
+                tipo = TABLA.consultar(self.nombre)
+                #Verificamos que se haya declarado anteriormente la variable
+                if tipo is None:
+                    print("Error Semantico: Variable '" + self.nombre + "' no declarada.")
+                    exit(1)
+                return tipo
+            return self.tipo
+
+        # Si no, definimos 2 variables auxiliares, una donde se
+        # guarda el tipo de los hijos y otra que verifica si son igules
+        primer_tipo, final_tipo = '', ''
+        for i in self.hijos:
+            primer_tipo = i.validar_exp()
+            if final_tipo != '':
+                if final_tipo != primer_tipo:
+                    print("Error Semantico: bad expression. '" + final_tipo + "' incompatible con '"
+                          + primer_tipo + "'")
+                    exit(1)
+            else:
+                final_tipo = primer_tipo
+        self.set_tipo(final_tipo)
+        return final_tipo
+
 
     def validar_semantica(self):
         """ Metodo para validar la semantica del lenguaje """
 
-        # Verificamos si entra en un nuevo scope, en ese caso se llena la tabla de 
-        # simbolos junto con el tipo de la variable
+        # Verificamos si entra en un nuevo scope, en ese caso se llena la tabla de
+        # simbolos junto con el tipo de Sla variable
         if self.nombre == 'Block' and self.head():
             # Insertamos nuevo scope
             TABLA.insertar_scope()
@@ -130,32 +169,30 @@ class Node:
                 pass
 
             TABLA.eliminar_scope()
-            print('scope eliminado')
-
+        # Si el es una Asignacion, entonces se verifica el tipo de la variable y expresion
         elif self.nombre == 'Asig':
             # Verificamos si el tipo de la variable es igual al tipo que devuelve la expresion
             tipo_var = TABLA.consultar(self.hijos[0].nombre)
+            #Verificamos que se haya declarado anteriormente la variable
+            if tipo_var is None:
+                print("Error Semantico: Variable '" + self.hijos[0].nombre + "' no declarada.")
+                exit(1)
+            tipo_exp = self.hijos[1].validar_exp()
+            #Guardamos en el nodo el tipo de la variable
             self.hijos[0].set_tipo(tipo_var)
-            tipo_exp = self.hijos[1].tipo
+
             if tipo_var != tipo_exp:
-                print("Error semantico en linea " + " Columna " +
+                print("Error semantico: linea " + " Columna " +
                       "\nError al asignar expresion de tipo " +
                       tipo_exp + " a variable de tipo " + tipo_var)
                 exit(1)
-
+        elif self.nombre == 'Exp':
+            #Validar una expresion
+            self.validar_exp()
+            
         else:
             for i in self.hijos:
-                #print(i.nombre)
                 i.validar_semantica()
-
-            #Luego validamos las expresiones
-        """
-            #Con esto se puede verificar si la expresion de a asignacion corres
-            ponde con el tipo de la variable de asignacion
-            elif self.nombre == "Asig":
-            variable = self.hijos[0]
-        """
-
 
     def imp(self, espacios):
         """ Otro metodo util para imprimir el arbol con mas informacion"""
@@ -175,9 +212,9 @@ class Node:
                     i.imp(espacios + 1)
 
     def imp_aux(self, espacios):
-
+        """ Metodo auxiliar para imprimir las declaraciones de variables """
         print('  '*espacios + self.nombre + ' ' + self.tipo)
-
+        #Si hay mas de una declaracion se imprime
         for i in self.hijos:
             if i is not None:
                 i.imp_aux(espacios)
@@ -409,77 +446,53 @@ def p_expresion(p):
         if p[1] == '(':
             p[0] = Node("Exp", [p[2]])
             #especial por que cambia la posicion de la exp
-            p[0].set_tipo(p[2].tipo)
         else:
             if p[2] == '+':
                 p[0] = Node("Exp", [Node("Plus", [p[1], p[3]])])
-                p[0].set_tipo(p[1].tipo)
             elif p[2] == '-':
                 p[0] = Node("Exp", [Node("Minus", [p[1], p[3]])])
-                p[0].set_tipo('int')
             elif p[2] == '*':
                 p[0] = Node("Exp", [Node("Mult", [p[1], p[3]])])
-                p[0].set_tipo(p[1].tipo)
             elif p[2] == '/':
                 p[0] = Node("Exp", [Node("Div", [p[1], p[3]])])
-                p[0].set_tipo('int')
             elif p[2] == '%':
                 p[0] = Node("Exp", [Node("Mod", [p[1], p[3]])])
-                p[0].set_tipo('int')
             if p[2] == '<':
                 p[0] = Node("Exp", [Node("Less", [p[1], p[3]])])
-                p[0].set_tipo('bool')
             elif p[2] == '>':
                 p[0] = Node("Exp", [Node("Greater", [p[1], p[3]])])
-                p[0].set_tipo('bool')
             elif p[2] == '<=':
                 p[0] = Node("Exp", [Node("LessEq", [p[1], p[3]])])
-                p[0].set_tipo('bool')
             elif p[2] == '>=':
                 p[0] = Node("Exp", [Node("GreaterEq", [p[1], p[3]])])
-                p[0].set_tipo('bool')
             elif p[2] == '==':
                 p[0] = Node("Exp", [Node("Equal", [p[1], p[3]])])
-                p[0].set_tipo('bool')
             elif p[2] == '/=':
                 p[0] = Node("Exp", [Node("Not Equal", [p[1], p[3]])])
-                p[0].set_tipo('bool')
             elif p[2] == '..':
                 p[0] = Node("Exp", [Node("So Forth", [p[1], p[3]])])
-                p[0].set_tipo('inter')
             elif p[2] == '<>':
                 p[0] = Node("Exp", [Node("Cap", [p[1], p[3]])])
-                p[0].set_tipo('inter')
             elif p[2] == 'or':
                 p[0] = Node("Exp", [Node("Or", [p[1], p[3]])])
-                p[0].set_tipo('bool')
             elif p[2] == 'and':
                 p[0] = Node("Exp", [Node("And", [p[1], p[3]])])
-                p[0].set_tipo('bool')
             elif p[2] == 'in':
                 p[0] = Node("Exp", [Node("In", [p[1], p[3]])])
-                p[0].set_tipo('bool')
-
 
     elif len(p) == 3:
         if p[1] != "-":
             p[0] = Node("Exp", [Node("Not", [p[2]])])
-            p[0].set_tipo('bool')
         elif p[1] == "-":
             p[0] = Node("Exp", [Node("Minus", [p[2]])])
-            p[0].set_tipo('int')
     elif len(p) == 2:
         #CONVERTIR
         if ((p[1].nombre == "itoi") or (p[1].nombre == "len") or
                 (p[1].nombre == "max") or (p[1].nombre == "min")):
             p[0] = Node("Exp", [Node(None, [p[1]])])
-            p[0].set_tipo(p[1].tipo)
         #VARIABLES
         else:
             p[0] = Node("Exp", [Node(None, [p[1]])])
-            p[0].set_tipo(p[1].tipo)
-
-    #print("expresion " + str(p[1].nombre))
 
 def p_lista_exp(p):
     """
@@ -498,12 +511,8 @@ def p_variables(p):
     """
     if p[1].tipo == 'bool' or p[1].tipo == 'int' or p[1].tipo == 'string':
         p[0] = Node("Variable", [p[1]])
-        p[0].set_tipo(p[1].tipo)
     else:
         p[0] = Node("Variable", [p[1]])
-        #Busca en la tabla de simbolos
-
-    #print("variables")
 
 def p_literal(p):
     """
@@ -527,15 +536,12 @@ def p_convertir(p):
               | TkMin TkOpenPar EXPRESION TkClosePar
     """
     p[0] = Node(str(p[1]), [p[3]])
-    #print("convertir " + str(p[1]))
 
 def p_postcondicion(p):
     """
     POSTCOND : TkOpenBra TkPost TkTwoPoints EXP_CUANTIFICADOR TkCloseBra
     """
     p[0] = Node("POST", [p[4]])
-
-    #print("post")
 
 def p_exp_cuantificador_forall(p):
     """
@@ -544,16 +550,12 @@ def p_exp_cuantificador_forall(p):
     """
     p[0] = Node("Forall", [p[3], p[5], p[7], p[9]])
 
-    #print("forall")
-
 def p_exp_cuantificador_exist(p):
     """
     EXP_CUANTIFICADOR : TkOpenPar TkExists IDENTIFICADOR TkPipe IDENTIFICADOR TkIn IDENTIFICADOR TkTwoPoints EXP_CUANTIFICADOR TkClosePar
                       | TkOpenPar TkExists IDENTIFICADOR TkPipe IDENTIFICADOR TkIn IDENTIFICADOR TkTwoPoints EXPRESION TkClosePar
     """
     p[0] = Node("Exist", [p[3], p[5], p[7], p[9]])
-
-    #print("exists")
 
 def p_error(p):
     print("Syntax error in line " + str(p.lineno) + ", column " + \
