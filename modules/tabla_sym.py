@@ -54,19 +54,18 @@ class Tabla_sym:
             aux = self.table.top()
             if not name in aux:
                 aux[name] = value
-            else:
-                print("variable ya declarada")
-            return True
+                return True
+            return False
+            
         raise Exception("pila vacia: No se ha podido insertar, por favor inserte un scope")
 
     def consultar(self, name):
         """ Consultamos en el hash del nivel actual sobre un elemento """
         if not self.table.isEmpty():
-            for i in range(self.table.size() + 1, -1, -1):
+            for i in range(self.table.size() - 1, -1, -1):
                 aux = self.table.get_level(i)
                 result = self.esta(aux, name)
-                if  result is not None:
-                    return result
+                return result
 
         raise Exception("pila vacia: No se ha podido insertar, por favor inserte un scope")
 
