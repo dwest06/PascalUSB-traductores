@@ -1,0 +1,27 @@
+program 
+	begin
+		declare
+			x, y as bool, int;
+			b as bool
+		x := 40 + 10;
+		y := x * 5;
+
+		begin
+			declare
+				a,b as int
+
+			a := 10;
+			b := 20;
+			x := true
+
+		end;
+
+		if y > 200 then
+			print "Mayor a 200";
+
+		while y > 50 do
+			begin
+				y := y - 50;
+				print (y)
+			end
+	end
