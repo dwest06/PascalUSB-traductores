@@ -1,0 +1,10 @@
+program
+	begin
+		declare 
+  			a,b as bool
+  			//;a as int
+  		a := true and false or (b or false);
+  		b := a and b or a
+
+		;print 10 + 44 * 5 and b
+	end
